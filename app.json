@@ -1,0 +1,22 @@
+
+{
+  "name": "Multiplayer",
+  "description": "Im so tired",
+  "website": "https://github.com/TheprogrammersJD/short",
+  "repository": "https://github.com/TheprogrammersJD/short",
+  "success_url": "/",
+  "keywords": [
+    "node",
+    "express",
+    "socket.io",
+    "realtime",
+    "websocket"
+  ],
+  "scripts": {
+  },
+  "addons": [
+  ],
+  "env": {
+    "BUILDPACK_URL": "https://github.com/heroku/heroku-buildpack-nodejs"
+  }
+}
