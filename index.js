@@ -29,6 +29,7 @@ io.on('connection', function(socket){
   playersonline++;
   playersx.push(0);
   playersy.push(0);
+  
   //clients.push(socket.id);
   //socket.emit("playerposition", player);
     
@@ -54,10 +55,10 @@ io.on('connection', function(socket){
   });
 
 	
-  /*socket.on('left', function(socketID){
-	playersx[clients.findIndex(findClient(socketID))] += 1;
-	socket.emit('left', socketID, x, y);
-  });*/
+  socket.on('mlrqst', function(){
+	playersx[0] += 1;
+	socket.emit('ml', playersx[0], playersy[0]);
+  });
  
 });
 
