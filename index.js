@@ -33,10 +33,11 @@ io.on('connection', function(socket){
   //clients.push(socket.id);
   //socket.emit("playerposition", player);
     
-  /*socket.on('sid', function(socketID){
-	clients.push(socketID);
-	socket.emit('playerposition', playersx[clients.findIndex(findClient(socketID))], playersy[clients.findIndex(findClient(socketID))]);
-  });*/
+  socket.on('sid', function(clientid){
+	clients.push(clientid);
+	socket.broadcast.emit('cid', clientid);
+	//socket.emit('playerposition', playersx[clients.findIndex(findClient(socketID))], playersy[clients.findIndex(findClient(socketID))]);
+  });
 	
   for(var n = 0; n < clickx.length; n++){
 		socket.emit('click', clickx[n], clicky[n]);
