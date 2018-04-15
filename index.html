@@ -10435,7 +10435,7 @@ function setup(){
 	background(100);
 }
 	
-var socketID = Math.round((Math.random() * 10000))*Math.round(Math.random() * 10);	
+var mySocketID = Math.round((Math.random() * 10000))*Math.round(Math.random() * 10);	
 
 function draw(){
 	//background(100);
@@ -10464,7 +10464,7 @@ function mouseClicked(){
 
 var socket = io();
 
-//socket.emit('sid', socketID);
+socket.emit('sid', mySocketID);
 
 function click(coordx, coordy){
 	socket.emit('click', coordx, coordy);
@@ -10489,6 +10489,9 @@ socket.on('click', function(x, y){
 socket.on('ml', function(x, y){
 	fill(0, 0, 0);
 	ellipse(x, y, widthorheight/10, widthorheight/10);
+});
+socket.on('cid', function(info){
+	console.log("player #" + info + " joined. Hooray! I love websockets!");
 });
 
 </script>
