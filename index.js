@@ -57,7 +57,7 @@ io.on('connection', function(socket){
 
 	
   socket.on('mlrqst', function(){
-	playersx[0] += 1;
+	playersx[0] -= 1;
 	socket.emit('ml', playersx[0], playersy[0]);
   });
  
