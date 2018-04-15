@@ -35,7 +35,7 @@ io.on('connection', function(socket){
     
   socket.on('sid', function(clientid){
 	clients.push(clientid);
-	socket.broadcast.emit('cid', clientid);
+	socket.broadcast.emit('cid', clientid, playersonline);
 	//socket.emit('playerposition', playersx[clients.findIndex(findClient(socketID))], playersy[clients.findIndex(findClient(socketID))]);
   });
 	
