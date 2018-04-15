@@ -10440,8 +10440,7 @@ var socketID = Math.round((Math.random() * 10000))*Math.round(Math.random() * 10
 function draw(){
 	//background(100);
 	if(keyIsDown(LEFT_ARROW)){
-	}
-	else{
+		moveleft();
 	}
 }
 function random(min, max){
@@ -10469,6 +10468,10 @@ var socket = io();
 
 function click(coordx, coordy){
 	socket.emit('click', coordx, coordy);
+	return false;
+}
+function moveleft(){
+	socket.emit('mlrqst', socketID);
 	return false;
 }
 	 
