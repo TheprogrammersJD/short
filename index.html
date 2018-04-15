@@ -10490,8 +10490,8 @@ socket.on('ml', function(x, y){
 	fill(0, 0, 0);
 	ellipse(x, y, widthorheight/10, widthorheight/10);
 });
-socket.on('cid', function(info){
-	console.log("player #" + info + " joined. Hooray! I love websockets!");
+socket.on('cid', function(info, infotwo){
+	console.log("Player #" + info + " joined.  Now there are a total of " + infotwo + " players online! Hooray!");
 });
 
 </script>
