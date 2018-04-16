@@ -10435,7 +10435,9 @@ function setup(){
 	background(100);
 }
 	
-var mySocketID = Math.round(((Math.random() + 1) * 10000))*Math.round(Math.random() * 10);	
+var mySocketID = Math.round(((Math.random() + 1) * 10000))*Math.round(Math.random() * 10);
+var mx = 0;
+var my = 0;
 var playersx = [];
 var playersy = [];
 	
@@ -10443,6 +10445,7 @@ var playersy = [];
 	
 function draw(){
 	background(255, 255, 255, 5);
+	translate(mx - (widthorheight/2), my - (widthorheight/2));
 	if(keyIsDown(LEFT_ARROW)){
 		moveleft();
 	}
@@ -10466,8 +10469,6 @@ function random(min, max){
 	return numtoreturn;
 	//return Math.floor(Math.random()*(max-min))+min;
 }
-var mx = 0;
-var my = 0;
 var mousedata;
 function mouseClicked(){
 	fill(0, 0, 255);
@@ -10502,13 +10503,6 @@ function movedown(){
 	
 	
 socket.on('click', function(x, y){
-	//console.log(i1 + ", " + i2);
-	//mx = i1;
-	//my = i2;
-	mx++;
-	mx--;
-	my++;
-	my--;
 	fill(255, 0, 0);
 	ellipse(x, y, widthorheight/10, widthorheight/10);
 });
