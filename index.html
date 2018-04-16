@@ -22,6 +22,11 @@
 	padding: 0;
 }*/
 </style>
+<form>
+	<label>Nickname:</label>
+	<input id = "name" value = "anonymous" type = "text" placeholder = "anonymous" autofocus></input>
+	<input type = "submit" onClick = "nickname()">PLAY</input>
+</form>
 <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
 <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 <script>/*!
@@ -10406,14 +10411,21 @@ this.glTarget=c.TEXTURE_2D,this.glFormat=c.RGBA,this.mipmaps=!1,this.glMinFilter
 </script>
 <script>
 
+var mySocketID = Math.round(((Math.random() + 1) * 10000))*Math.round(Math.random() * 10);
+var nickname = "anonyomous";
+var mx = 0;
+var my = 0;
+var playersx = [];
+var playersy = [];
+var play = false;
+var nicknames = [];
 
 
 
 
 
 
-
-
+if(play){
 
 
 
@@ -10434,12 +10446,6 @@ function setup(){
 	createCanvas(widthorheight, widthorheight);
 	background(100);
 }
-	
-var mySocketID = Math.round(((Math.random() + 1) * 10000))*Math.round(Math.random() * 10);
-var mx = 0;
-var my = 0;
-var playersx = [];
-var playersy = [];
 	
 	
 	
@@ -10490,7 +10496,7 @@ function mouseClicked(){
 
 var socket = io();
 
-socket.emit('sid', mySocketID);
+socket.emit('sid', mySocketID, nickname);
 
 function click(coordx, coordy){
 	socket.emit('click', coordx, coordy);
@@ -10520,6 +10526,7 @@ socket.on('click', function(x, y){
 });
 socket.on('ml', function(x, y){
 	fill(0, 0, 0);
+	text(nickname, x, y);
 	ellipse(x, y, widthorheight/10, widthorheight/10);
 });
 socket.on('mr', function(x, y){
@@ -10534,14 +10541,19 @@ socket.on('md', function(x, y){
 	fill(0, 0, 0);
 	ellipse(x, y, widthorheight/10, widthorheight/10);
 });
-socket.on('cid', function(info, infotwo){
-	console.log("Player #" + info + " joined.  Now there are a total of " + infotwo + " players online! Hooray!");
+socket.on('cid', function(info, infotwo, infothree){
+	console.log("Player #" + info + " with the name '" + infothree + "' joined.  Now there are a total of " + infotwo + " players online! Hooray!");
+	nicknames.push(infothree);
 });
 socket.on('playerposition', function(theirx, theiry){
 	fill(0, 0, 0);
 	ellipse(theirx, theiry, widthorheight/10, widthorheight/10);
 });
-
+}
+function nickname(){
+	nickname = $("#name").val();
+	play = true;
+}
 </script>
 </body>
 </html>
