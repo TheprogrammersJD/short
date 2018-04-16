@@ -31,6 +31,7 @@ io.on('connection', function(socket){
   playersy.push(0);
   
   //clients.push(socket.id);
+  socket.broadcast.emit("playerposition", 0, 0);
   socket.emit("playerposition", 0, 0);
     
   socket.on('sid', function(clientid){
@@ -59,6 +60,7 @@ io.on('connection', function(socket){
   socket.on('mlrqst', function(theclientsID){
 	playersx[clients.indexOf(theclientsID)] += 1;
 	socket.emit('ml', playersx[clients.indexOf(theclientsID)], playersy[clients.indexOf(theclientsID)]);
+	socket.broadcast.emit('ml', playersx[clients.indexOf(theclientsID)], playersy[clients.indexOf(theclientsID)]);
   });
  
 });
