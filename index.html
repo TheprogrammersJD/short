@@ -10442,6 +10442,15 @@ function draw(){
 	if(keyIsDown(LEFT_ARROW)){
 		moveleft();
 	}
+	if(keyIsDown(RIGHT_ARROW)){
+		moveright();
+	}
+	if(keyIsDown(UP_ARROW)){
+		moveup();
+	}
+	if(keyIsDown(DOWN_ARROW)){
+		movedown();
+	}
 }
 function random(min, max){
 	numtoreturn = max - min;
@@ -10474,7 +10483,20 @@ function moveleft(){
 	socket.emit('mlrqst', mySocketID);
 	return false;
 }
-	 
+function moveright(){
+	socket.emit('mrrqst', mySocketID);
+	return false;
+}
+function moveup(){
+	socket.emit('murqst', mySocketID);
+	return false;
+}
+function movedown(){
+	socket.emit('mdrqst', mySocketID);
+	return false;
+}
+	
+	
 socket.on('click', function(x, y){
 	//console.log(i1 + ", " + i2);
 	//mx = i1;
