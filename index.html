@@ -10493,6 +10493,10 @@ socket.on('ml', function(x, y){
 socket.on('cid', function(info, infotwo){
 	console.log("Player #" + info + " joined.  Now there are a total of " + infotwo + " players online! Hooray!");
 });
+socket.on('playerposition', function(theirx, theiry){
+	fill(0, 0, 0);
+	ellipse(theirx, theiry, widthorheight/10, widthorheight/10);
+});
 
 </script>
 </body>
