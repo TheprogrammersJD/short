@@ -31,7 +31,7 @@ io.on('connection', function(socket){
   playersy.push(0);
   
   //clients.push(socket.id);
-  //socket.emit("playerposition", player);
+  socket.emit("playerposition", 0, 0);
     
   socket.on('sid', function(clientid){
 	clients.push(clientid);
