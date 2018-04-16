@@ -22,11 +22,9 @@
 	padding: 0;
 }*/
 </style>
-<form>
-	<label>Nickname:</label>
-	<input id = "name" value = "anonymous" type = "text" placeholder = "anonymous" autofocus></input>
-	<button onClick = "nickname()">PLAY</button>
-</form>
+<label>Nickname:</label>
+<input id = "name" value = "anonymous" type = "text" placeholder = "anonymous" autofocus></input>
+<button onClick = "nickname()">PLAY</button>
 <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
 <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 <script>/*!
@@ -10426,8 +10424,8 @@ var nicknames = [];
 function nickname(){
 	nickname = $("#name").val();
 	play = true;
-	$("form").remove();
 	$("label").remove();
+	$("input").remove();
 	$("button").remove();
 	var socket = io();
 
