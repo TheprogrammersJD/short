@@ -10449,13 +10449,25 @@ function draw(){
 	if(keyIsDown(LEFT_ARROW)){
 		moveleft();
 	}
+	else if(keyIsDown(65)){
+		moveleft();
+	}
 	if(keyIsDown(RIGHT_ARROW)){
 		moveright();
+	}
+	else if(keyIsDown(68)){
+		moveright();
+	}
+	else if(keyIsDown(87)){
+		moveup();
 	}
 	if(keyIsDown(UP_ARROW)){
 		moveup();
 	}
 	if(keyIsDown(DOWN_ARROW)){
+		movedown();
+	}
+	else if(keyIsDown(83)){
 		movedown();
 	}
 }
