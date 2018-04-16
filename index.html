@@ -10471,7 +10471,7 @@ function click(coordx, coordy){
 	return false;
 }
 function moveleft(){
-	socket.emit('mlrqst');
+	socket.emit('mlrqst', mySocketID);
 	return false;
 }
 	 
