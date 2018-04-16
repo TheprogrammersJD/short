@@ -10436,9 +10436,13 @@ function setup(){
 }
 	
 var mySocketID = Math.round(((Math.random() + 1) * 10000))*Math.round(Math.random() * 10);	
-
+var playersx = [];
+var playersy = [];
+	
+	
+	
 function draw(){
-	background(100, 0, 0, 5);
+	background(0, 0, 0, 5);
 	if(keyIsDown(LEFT_ARROW)){
 		moveleft();
 	}
