@@ -25,7 +25,7 @@
 <form>
 	<label>Nickname:</label>
 	<input id = "name" value = "anonymous" type = "text" placeholder = "anonymous" autofocus></input>
-	<input type = "submit" onClick = "nickname()">PLAY</input>
+	<button onClick = "nickname()">PLAY</button>
 </form>
 <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
 <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
@@ -10553,6 +10553,9 @@ socket.on('playerposition', function(theirx, theiry){
 function nickname(){
 	nickname = $("#name").val();
 	play = true;
+	$("form").remove();
+	$("label").remove();
+	$("button").remove();
 }
 </script>
 </body>
