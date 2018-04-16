@@ -82,7 +82,14 @@ io.on('connection', function(socket){
  
 });
 
+function players(){
+	for(var i = 0; i < clients.length; i++){
+		socket.emit('playerposition', playersx[i], playersy[i]);
+		socket.broadcast.emit('playerposition', playersx[i], playersy[i]);
+	}
+}
 
+setInterval(players, 500);
 http.listen(port, function(){
   console.log('listening on *:' + port);
 });
