@@ -22,9 +22,9 @@
 	padding: 0;
 }*/
 </style>
-<label>Nickname:</label>
+<!--<label>Nickname:</label>
 <input id = "name" value = "anonymous" type = "text" placeholder = "anonymous" autofocus></input>
-<button onClick = "nickname()">PLAY</button>
+<button onClick = "nickname()">PLAY</button>-->
 <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
 <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 <script>/*!
@@ -10410,7 +10410,9 @@ this.glTarget=c.TEXTURE_2D,this.glFormat=c.RGBA,this.mipmaps=!1,this.glMinFilter
 <script>
 
 var mySocketID = Math.round(((Math.random() + 1) * 10000))*Math.round(Math.random() * 10);
-var nickname = "anonyomous";
+var adjectives = ["red", "orange", "yellow", "green", "blue", "purple", "black", "pink", "brown", "raging", "ferocious", "awesome", "stinky", "camouflaged", "WORKING", "jumpy", "plastic", "sticky", "trapped", "metal", "furry", "sleeping", "snoring", "running", "walking", "driving", "crazy", "fighting", "flying", "gliding", "happy", "sad", "eating", "working", "typing", "climbing"];
+var nouns = ["bear", "lion", "man", "car", "panda", "tiger", "cat", "dog", "hamster", "PROGRAMMER", "gamer", "employee", "employer", "thief", "theif", "firefighter", "wind", "boat", "sea", "gunner", "dvd", "vhs", "space", "air", "mouse", "kitten", "scab", "pizza", "ice-cream", "chocolate"];
+var nickname = adjectives[(Math.ceil(Math.random()*34))-1]+"-"+nouns[(Math.ceil(Math.random()*30))-1]+(Math.ceil(Math.random()*100));
 var mx = 0;
 var my = 0;
 var playersx = [];
@@ -10421,16 +10423,14 @@ var nicknames = [];
 
 
 
-function nickname(){
+/*function nickname(){
 	nickname = $("#name").val();
 	play = true;
 	$("label").remove();
 	$("input").remove();
 	$("button").remove();
-	var socket = io();
-
-socket.emit('sid', mySocketID, nickname);
-}
+	
+}*/
 
 var width = window.innerWidth*0.95;
 var height = window.innerHeight*0.95;
@@ -10494,6 +10494,9 @@ function mouseClicked(){
 	ellipse(mouseX, mouseY, widthorheight/10, widthorheight/10);
 	click(mouseX, mouseY);
 }
+var socket = io();
+
+socket.emit('sid', mySocketID, nickname);
 
 function click(coordx, coordy){
 	socket.emit('click', coordx, coordy);
