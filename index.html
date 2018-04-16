@@ -10423,13 +10423,16 @@ var nicknames = [];
 
 
 
+function nickname(){
+	nickname = $("#name").val();
+	play = true;
+	$("form").remove();
+	$("label").remove();
+	$("button").remove();
+	var socket = io();
 
-
-if(play){
-
-
-
-
+socket.emit('sid', mySocketID, nickname);
+}
 
 var width = window.innerWidth*0.95;
 var height = window.innerHeight*0.95;
@@ -10494,10 +10497,6 @@ function mouseClicked(){
 	click(mouseX, mouseY);
 }
 
-var socket = io();
-
-socket.emit('sid', mySocketID, nickname);
-
 function click(coordx, coordy){
 	socket.emit('click', coordx, coordy);
 	return false;
@@ -10549,14 +10548,6 @@ socket.on('playerposition', function(theirx, theiry){
 	fill(0, 0, 0);
 	ellipse(theirx, theiry, widthorheight/10, widthorheight/10);
 });
-}
-function nickname(){
-	nickname = $("#name").val();
-	play = true;
-	$("form").remove();
-	$("label").remove();
-	$("button").remove();
-}
 </script>
 </body>
 </html>
