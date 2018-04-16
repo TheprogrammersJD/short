@@ -61,35 +61,36 @@ io.on('connection', function(socket){
 	
   socket.on('mlrqst', function(theclientsID){
 	playersx[clients.indexOf(theclientsID)] -= 1;
-	socket.emit('ml', playersx[clients.indexOf(theclientsID)], playersy[clients.indexOf(theclientsID)]);
-	socket.broadcast.emit('ml', playersx[clients.indexOf(theclientsID)], playersy[clients.indexOf(theclientsID)]);
+	socket.emit('ml', playersx[clients.indexOf(theclientsID)], playersy[clients.indexOf(theclientsID)], theclientsID);
+	socket.broadcast.emit('ml', playersx[clients.indexOf(theclientsID)], playersy[clients.indexOf(theclientsID)], theclientsID);
   });	
   socket.on('mrrqst', function(theclientsID){
 	playersx[clients.indexOf(theclientsID)] += 1;
-	socket.emit('mr', playersx[clients.indexOf(theclientsID)], playersy[clients.indexOf(theclientsID)]);
-	socket.broadcast.emit('mr', playersx[clients.indexOf(theclientsID)], playersy[clients.indexOf(theclientsID)]);
+	socket.emit('mr', playersx[clients.indexOf(theclientsID)], playersy[clients.indexOf(theclientsID)], theclientsID);
+	socket.broadcast.emit('mr', playersx[clients.indexOf(theclientsID)], playersy[clients.indexOf(theclientsID)], theclientsID);
   });	
   socket.on('murqst', function(theclientsID){
 	playersy[clients.indexOf(theclientsID)] -= 1;
-	socket.emit('mu', playersx[clients.indexOf(theclientsID)], playersy[clients.indexOf(theclientsID)]);
-	socket.broadcast.emit('mu', playersx[clients.indexOf(theclientsID)], playersy[clients.indexOf(theclientsID)]);
+	socket.emit('mu', playersx[clients.indexOf(theclientsID)], playersy[clients.indexOf(theclientsID)], theclientsID);
+	socket.broadcast.emit('mu', playersx[clients.indexOf(theclientsID)], playersy[clients.indexOf(theclientsID)], theclientsID);
   });	
   socket.on('mdrqst', function(theclientsID){
 	playersy[clients.indexOf(theclientsID)] += 1;
-	socket.emit('md', playersx[clients.indexOf(theclientsID)], playersy[clients.indexOf(theclientsID)]);
-	socket.broadcast.emit('md', playersx[clients.indexOf(theclientsID)], playersy[clients.indexOf(theclientsID)]);
+	socket.emit('md', playersx[clients.indexOf(theclientsID)], playersy[clients.indexOf(theclientsID)], theclientsID);
+	socket.broadcast.emit('md', playersx[clients.indexOf(theclientsID)], playersy[clients.indexOf(theclientsID)], theclientsID);
   });
  
 });
 
-function players(){
+/*function players(){
 	for(var i = 0; i < clients.length; i++){
 		socket.emit('playerposition', playersx[i], playersy[i]);
 		socket.broadcast.emit('playerposition', playersx[i], playersy[i]);
 	}
 }
 
-setInterval(players, 500);
+setInterval(players, 500);*/
+
 http.listen(port, function(){
   console.log('listening on *:' + port);
 });
