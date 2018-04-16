@@ -10418,6 +10418,7 @@ var my = 0;
 var playersx = [];
 var playersy = [];
 var play = false;
+var socketids = [];
 var nicknames = [];
 
 
@@ -10477,6 +10478,11 @@ function draw(){
 	else if(keyIsDown(83)){
 		movedown();
 	}
+	
+	
+	for(var p = 0; p < socketids; p++){
+		ellipse(playersx[p], playersy[p], widthorheight/10, widthorheight/10);
+	}
 }
 function random(min, max){
 	numtoreturn = max - min;
@@ -10524,25 +10530,36 @@ socket.on('click', function(x, y){
 	fill(255, 0, 0);
 	ellipse(x, y, widthorheight/10, widthorheight/10);
 });
-socket.on('ml', function(x, y){
+socket.on('ml', function(x, y, therID){
+	playersx[socketids.indexOf(therID)] = x;
+	playersy[socketids.indexOf(therID)] = y;
 	fill(0, 0, 0);
 	text(nickname, x, y);
 	ellipse(x, y, widthorheight/10, widthorheight/10);
 });
-socket.on('mr', function(x, y){
+socket.on('mr', function(x, y, therID){
+	playersx[socketids.indexOf(therID)] = x;
+	playersy[socketids.indexOf(therID)] = y;
 	fill(0, 0, 0);
 	ellipse(x, y, widthorheight/10, widthorheight/10);
 });
-socket.on('mu', function(x, y){
+socket.on('mu', function(x, y, therID){
+	playersx[socketids.indexOf(therID)] = x;
+	playersy[socketids.indexOf(therID)] = y;
 	fill(0, 0, 0);
 	ellipse(x, y, widthorheight/10, widthorheight/10);
 });
-socket.on('md', function(x, y){
+socket.on('md', function(x, y, therID){
+	playersx[socketids.indexOf(therID)] = x;
+	playersy[socketids.indexOf(therID)] = y;
 	fill(0, 0, 0);
 	ellipse(x, y, widthorheight/10, widthorheight/10);
 });
 socket.on('cid', function(info, infotwo, infothree){
-	console.log("Player #" + info + " with the name '" + infothree + "' joined.  Now there are a total of " + infotwo + " players online! Hooray!");
+	console.log("Player #" + info + " with the name '" + infothree + "' joined and spawned at X: 0" + ifour + ", Y: 0" + ifive + ". Now there are a total of " + infotwo + " players online! Hooray!");
+	playersx.push(0);
+	playersy.push(0);
+	socketids.push(info);
 	nicknames.push(infothree);
 });
 socket.on('playerposition', function(theirx, theiry){
