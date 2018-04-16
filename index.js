@@ -17,6 +17,7 @@ var playersx = [];
 var playersy = [];
 var playersonline = 0;
 var clients = [];
+var nicknames = [];
 
 var mapsize;
 
@@ -34,9 +35,10 @@ io.on('connection', function(socket){
   socket.broadcast.emit("playerposition", 0, 0);
   socket.emit("playerposition", 0, 0);
     
-  socket.on('sid', function(clientid){
+  socket.on('sid', function(clientid, nickname){
 	clients.push(clientid);
-	socket.broadcast.emit('cid', clientid, playersonline);
+	nicknames.push(nickname);
+	socket.broadcast.emit('cid', clientid, playersonline, nickname);
 	//socket.emit('playerposition', playersx[clients.findIndex(findClient(socketID))], playersy[clients.findIndex(findClient(socketID))]);
   });
 	
