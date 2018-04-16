@@ -57,8 +57,8 @@ io.on('connection', function(socket){
 
 	
   socket.on('mlrqst', function(theclientsID){
-	playersx[theclientsID] += 1;
-	socket.emit('ml', playersx[theclientsID], playersy[theclientsID]);
+	playersx[clients.indexOf(theclientsID)] += 1;
+	socket.emit('ml', playersx[clients.indexOf(theclientsID)], playersy[clients.indexOf(theclientsID)]);
   });
  
 });
