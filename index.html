@@ -10453,8 +10453,8 @@ function setup(){
 	
 function draw(){
 	background(100);
-	translate(playersx[socketids.indexOf(mySocketID)] - (widthorheight/2), playersx[socketids.indexOf(mySocketID)] - (widthorheight/2));
-	ellipse(0, 0, widthorheight/10, widthorheight/10);
+	//translate(playersx[socketids.indexOf(mySocketID)] - (widthorheight/2), playersx[socketids.indexOf(mySocketID)] - (widthorheight/2));
+	//ellipse(0, 0, widthorheight/10, widthorheight/10);
 	if(keyIsDown(LEFT_ARROW)){
 		moveleft();
 	}
@@ -10482,15 +10482,15 @@ function draw(){
 	
 	
 	for(var p = 0; p < socketids.length; p++){
-		if(p == socketids.indexOf(mySocketID)){}
-		else{
+		//if(p == socketids.indexOf(mySocketID)){}
+		//else{
 			stroke(0, 0, 0);
 			fill(0, 0, 0);
 			ellipse(playersx[p], playersy[p], widthorheight/10, widthorheight/10);
 			stroke(255, 255, 255);
 			textAlign(CENTER, CENTER);
 			text(nicknames[p], playersx[p], playersy[p]);
-		}
+		//}
 	}
 }
 function random(min, max){
