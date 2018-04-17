@@ -10413,8 +10413,8 @@ var mySocketID = Math.round(((Math.random() + 1) * 10000))*Math.round(Math.rando
 var adjectives = ["red", "orange", "yellow", "green", "blue", "purple", "black", "pink", "brown", "raging", "ferocious", "awesome", "stinky", "camouflaged", "jumpy", "plastic", "sticky", "trapped", "metal", "furry", "sleeping", "snoring", "running", "walking", "crazy", "fighting", "flying", "gliding", "happy", "sad", "eating", "working", "typing", "climbing", "WORKING", "colorful", "typical", "common", "rare", "dirty", "clean", "proper", "rich", "poor", "loving", "wooden", "paper", "fake", "sneaky", "sly", "broken", "convicted", "young", "old", "aged", "firey", "burnt", "ancient", "unearthed", "discovered", "fluttering", "shivering", "lazy", "honest", "deceitful", "robotic", "burning", "smoking", "legendary", "contented", "talkative", "ridiculous", "colonial", "fabric", "fabricated", "squishy", "squished", "blank", "electronic", "pennyless", "broke", "burping", "lethargic", "shaking", "sick", "flowery", "frozen", "spinning", "fat", "rotation", "obese", "overweight", "worthless"];
 var nouns = ["bear", "lion", "man", "car", "panda", "tiger", "cat", "dog", "hamster", "PROGRAMMER", "gamer", "employee", "employer", "thief", "theif", "firefighter", "wind", "boat", "sea", "gunner", "space", "air", "mouse", "kitten", "scab", "pizza", "ice-cream", "chocolate", "grapes", "horse", "government", "president", "leader", "convict", "ball", "treasure", "pearl", "gem", "chest", "box", "apple", "block", "snake", "bird", "ship", "tulip", "coupon", "pauper", "prince", "princess", "king", "queen", "peasant", "musician", "knight", "castle", "chimney", "chimneysweep", "slave", "servant", "advertisement", "mushroom", "manager", "dancer", "giraffe", "mermaid", "unicorn", "dragon", "book"];
 var nickname = adjectives[(Math.ceil(Math.random()*adjectives.length))-1]+"-"+nouns[(Math.ceil(Math.random()*nouns.length))-1]+"-"+(Math.ceil(Math.random()*1000));
-var mx = 0;
-var my = 0;
+var myposx = 0;
+var myposy = 0;
 var playersx = [];
 var playersy = [];
 var play = false;
@@ -10453,11 +10453,13 @@ function setup(){
 	
 function draw(){
 	background(100);
-	translate(playersx[socketids.indexOf(mySocketID)] - (widthorheight/2), playersy[socketids.indexOf(mySocketID)] - (widthorheight/2));
+	myposx = playersx[socketids.indexOf(mySocketID)];
+	myposy = playersy[socketids.indexOf(mySocketID)];
+	translate((myposx - (widthorheight/2)), (myposy - (widthorheight/2)));
+	ellipse(0, 0, widthorheight/10, widthorheight/10);
 	textAlign(CENTER, CENTER);
 	text(nickname, 0, 0);
-	ellipse(0, 0, widthorheight/10, widthorheight/10);
-	translate(-playersx[socketids.indexOf(mySocketID)] + (widthorheight/2), -playersy[socketids.indexOf(mySocketID)] + (widthorheight/2));
+	translate((((-1)*myposx) + (widthorheight/2)), (((-1)*myposy) + (widthorheight/2)));
 
 	if(keyIsDown(LEFT_ARROW)){
 		moveleft();
