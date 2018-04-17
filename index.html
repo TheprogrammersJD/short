@@ -10542,27 +10542,27 @@ socket.on('click', function(x, y){
 socket.on('ml', function(x, y, therID){
 	playersx[socketids.indexOf(therID)] = x;
 	playersy[socketids.indexOf(therID)] = y;
-	//fill(0, 0, 0);
-	//text(nickname, x, y);
-	//ellipse(x, y, widthorheight/10, widthorheight/10);
+	fill(0, 0, 0);
+	text(nickname, x, y);
+	ellipse(x, y, widthorheight/10, widthorheight/10);
 });
 socket.on('mr', function(x, y, therID){
 	playersx[socketids.indexOf(therID)] = x;
 	playersy[socketids.indexOf(therID)] = y;
-	//fill(0, 0, 0);
-	//ellipse(x, y, widthorheight/10, widthorheight/10);
+	fill(0, 0, 0);
+	ellipse(x, y, widthorheight/10, widthorheight/10);
 });
 socket.on('mu', function(x, y, therID){
 	playersx[socketids.indexOf(therID)] = x;
 	playersy[socketids.indexOf(therID)] = y;
-	//fill(0, 0, 0);
-	//ellipse(x, y, widthorheight/10, widthorheight/10);
+	fill(0, 0, 0);
+	ellipse(x, y, widthorheight/10, widthorheight/10);
 });
 socket.on('md', function(x, y, therID){
 	playersx[socketids.indexOf(therID)] = x;
 	playersy[socketids.indexOf(therID)] = y;
-	//fill(0, 0, 0);
-	//ellipse(x, y, widthorheight/10, widthorheight/10);
+	fill(0, 0, 0);
+	ellipse(x, y, widthorheight/10, widthorheight/10);
 });
 socket.on('cid', function(info, infotwo, infothree){
 	console.log("Player #" + info + " with the name '" + infothree + "' joined and spawned at X: 0, Y: 0. Now there are a total of " + infotwo + " players online! Hooray!");
@@ -10572,8 +10572,8 @@ socket.on('cid', function(info, infotwo, infothree){
 	nicknames.push(infothree);
 });
 socket.on('playerposition', function(theirx, theiry){
-	//fill(0, 0, 0);
-	//ellipse(theirx, theiry, widthorheight/10, widthorheight/10);
+	fill(0, 0, 0);
+	ellipse(theirx, theiry, widthorheight/10, widthorheight/10);
 });
 socket.on('you', function(yerx, yery){
 	fill(0, 0, 0);
@@ -10584,8 +10584,8 @@ socket.on('you', function(yerx, yery){
 	nicknames.push(nickname);
 });
 socket.on('them', function(themx, themy, themid, themname){
-	//fill(0, 0, 0);
-	//ellipse(themx, themy, widthorheight/10, widthorheight/10);
+	fill(0, 0, 0);
+	ellipse(themx, themy, widthorheight/10, widthorheight/10);
 	playersx.push(themx);
 	playersy.push(themy);
 	socketids.push(themid);
