@@ -39,7 +39,15 @@ io.on('connection', function(socket){
 	clients.push(clientid);
 	nicknames.push(nickname);
 	socket.broadcast.emit('cid', clientid, playersonline, nickname);
-	//socket.emit('playerposition', playersx[clients.findIndex(findClient(socketID))], playersy[clients.findIndex(findClient(socketID))]);
+	socket.emit('you', playersx[clients.indexOf(clientid)], playersy[clients.indexOf(clientid)]);
+	for(var c = 0; c < clients.length; c++){
+		if(c == clients.indexOf(clientid)){
+			//No need to tell yourself where you are =P
+		}
+		else{
+			socket.emit('them', playersx[c], playersy[c], clients[c], nicknames[c]);
+		}
+	}
   });
 	
   for(var n = 0; n < clickx.length; n++){
