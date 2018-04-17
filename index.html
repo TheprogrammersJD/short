@@ -10412,7 +10412,7 @@ this.glTarget=c.TEXTURE_2D,this.glFormat=c.RGBA,this.mipmaps=!1,this.glMinFilter
 var mySocketID = Math.round(((Math.random() + 1) * 10000))*Math.round(Math.random() * 10);
 var adjectives = ["red", "orange", "yellow", "green", "blue", "purple", "black", "pink", "brown", "raging", "ferocious", "awesome", "stinky", "camouflaged", "WORKING", "jumpy", "plastic", "sticky", "trapped", "metal", "furry", "sleeping", "snoring", "running", "walking", "driving", "crazy", "fighting", "flying", "gliding", "happy", "sad", "eating", "working", "typing", "climbing"];
 var nouns = ["bear", "lion", "man", "car", "panda", "tiger", "cat", "dog", "hamster", "PROGRAMMER", "gamer", "employee", "employer", "thief", "theif", "firefighter", "wind", "boat", "sea", "gunner", "dvd", "vhs", "space", "air", "mouse", "kitten", "scab", "pizza", "ice-cream", "chocolate"];
-var nickname = adjectives[(Math.ceil(Math.random()*34))-1]+"-"+nouns[(Math.ceil(Math.random()*30))-1]+(Math.ceil(Math.random()*100));
+var nickname = adjectives[(Math.ceil(Math.random()*34))-1]+"-"+nouns[(Math.ceil(Math.random()*30))-1]+"-"+(Math.ceil(Math.random()*100));
 var mx = 0;
 var my = 0;
 var playersx = [];
@@ -10556,7 +10556,7 @@ socket.on('md', function(x, y, therID){
 	ellipse(x, y, widthorheight/10, widthorheight/10);
 });
 socket.on('cid', function(info, infotwo, infothree){
-	console.log("Player #" + info + " with the name '" + infothree + "' joined and spawned at X: 0" + ifour + ", Y: 0" + ifive + ". Now there are a total of " + infotwo + " players online! Hooray!");
+	console.log("Player #" + info + " with the name '" + infothree + "' joined and spawned at X: 0, Y: 0. Now there are a total of " + infotwo + " players online! Hooray!");
 	playersx.push(0);
 	playersy.push(0);
 	socketids.push(info);
