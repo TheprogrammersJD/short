@@ -10570,6 +10570,22 @@ socket.on('playerposition', function(theirx, theiry){
 	fill(0, 0, 0);
 	ellipse(theirx, theiry, widthorheight/10, widthorheight/10);
 });
+socket.on('you', function(yerx, yery){
+	fill(0, 0, 0);
+	ellipse(yerx, yery, widthorheight/10, widthorheight/10);
+	playersx.push(yerx);
+	playersy.push(yery);
+	socketids.push(mySocketID);
+	nicknames.push(nickname);
+});
+socket.on('them', function(themx, themy, themid, themname){
+	fill(0, 0, 0);
+	ellipse(themx, themy, widthorheight/10, widthorheight/10);
+	playersx.push(themx);
+	playersy.push(themy);
+	socketids.push(themid);
+	nicknames.push(themname);
+});
 </script>
 </body>
 </html>
