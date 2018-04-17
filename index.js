@@ -31,9 +31,8 @@ io.on('connection', function(socket){
   playersx.push(0);
   playersy.push(0);
   
-  //clients.push(socket.id);
-  socket.broadcast.emit("playerposition", 0, 0);
-  socket.emit("playerposition", 0, 0);
+  //socket.broadcast.emit("newplayer", 0, 0);
+  //socket.emit("playerposition", 0, 0);
     
   socket.on('sid', function(clientid, nickname){
 	clients.push(clientid);
@@ -41,12 +40,7 @@ io.on('connection', function(socket){
 	socket.broadcast.emit('cid', clientid, playersonline, nickname);
 	socket.emit('you', playersx[clients.indexOf(clientid)], playersy[clients.indexOf(clientid)]);
 	for(var c = 0; c < clients.length; c++){
-		if(c == clients.indexOf(clientid)){
-			//No need to tell yourself where you are =P
-		}
-		else{
-			socket.emit('them', playersx[c], playersy[c], clients[c], nicknames[c]);
-		}
+		socket.emit('them', playersx[c], playersy[c], clients[c], nicknames[c]);
 	}
   });
 	
