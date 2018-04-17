@@ -10412,7 +10412,7 @@ this.glTarget=c.TEXTURE_2D,this.glFormat=c.RGBA,this.mipmaps=!1,this.glMinFilter
 var mySocketID = Math.round(((Math.random() + 1) * 10000))*Math.round(Math.random() * 10);
 var adjectives = ["red", "orange", "yellow", "green", "blue", "purple", "black", "pink", "brown", "raging", "ferocious", "awesome", "stinky", "camouflaged", "jumpy", "plastic", "sticky", "trapped", "metal", "furry", "sleeping", "snoring", "running", "walking", "crazy", "fighting", "flying", "gliding", "happy", "sad", "eating", "working", "typing", "climbing", "WORKING", "colorful", "typical", "common", "rare", "dirty", "clean", "proper", "rich", "poor", "loving", "wooden", "paper", "fake", "sneaky", "sly", "broken", "convicted", "young", "old", "aged", "firey", "burnt", "ancient", "unearthed", "discovered", "fluttering", "shivering", "lazy", "honest", "deceitful", "robotic", "burning", "smoking", "legendary", "contented", "talkative", "ridiculous", "colonial", "fabric", "fabricated", "squishy", "squished", "blank", "electronic", "pennyless", "broke", "burping", "lethargic", "shaking", "sick", "flowery", "frozen", "spinning", "fat", "rotation", "obese", "overweight", "worthless"];
 var nouns = ["bear", "lion", "man", "car", "panda", "tiger", "cat", "dog", "hamster", "PROGRAMMER", "gamer", "employee", "employer", "thief", "theif", "firefighter", "wind", "boat", "sea", "gunner", "space", "air", "mouse", "kitten", "scab", "pizza", "ice-cream", "chocolate", "grapes", "horse", "government", "president", "leader", "convict", "ball", "treasure", "pearl", "gem", "chest", "box", "apple", "block", "snake", "bird", "ship", "tulip", "coupon", "pauper", "prince", "princess", "king", "queen", "peasant", "musician", "knight", "castle", "chimney", "chimneysweep", "slave", "servant", "advertisement", "mushroom", "manager", "dancer", "giraffe", "mermaid", "unicorn", "dragon", "book"];
-var nickname = adjectives[(Math.ceil(Math.random()*34))-1]+"-"+nouns[(Math.ceil(Math.random()*30))-1]+"-"+(Math.ceil(Math.random()*100));
+var nickname = adjectives[(Math.ceil(Math.random()*adjectives.length))-1]+"-"+nouns[(Math.ceil(Math.random()*nouns.length))-1]+"-"+(Math.ceil(Math.random()*1000));
 var mx = 0;
 var my = 0;
 var playersx = [];
@@ -10453,8 +10453,12 @@ function setup(){
 	
 function draw(){
 	background(100);
-	//translate(playersx[socketids.indexOf(mySocketID)] - (widthorheight/2), playersx[socketids.indexOf(mySocketID)] - (widthorheight/2));
-	//ellipse(0, 0, widthorheight/10, widthorheight/10);
+	translate(playersx[socketids.indexOf(mySocketID)] - (widthorheight/2), playersy[socketids.indexOf(mySocketID)] - (widthorheight/2));
+	textAlign(CENTER, CENTER);
+	text(nickname, 0, 0);
+	ellipse(0, 0, widthorheight/10, widthorheight/10);
+	translate(-playersx[socketids.indexOf(mySocketID)] + (widthorheight/2), -playersy[socketids.indexOf(mySocketID)] + (widthorheight/2));
+
 	if(keyIsDown(LEFT_ARROW)){
 		moveleft();
 	}
@@ -10482,15 +10486,15 @@ function draw(){
 	
 	
 	for(var p = 0; p < socketids.length; p++){
-		//if(p == socketids.indexOf(mySocketID)){}
-		//else{
+		if(p == socketids.indexOf(mySocketID)){}
+		else{
 			stroke(0, 0, 0);
 			fill(0, 0, 0);
 			ellipse(playersx[p], playersy[p], widthorheight/10, widthorheight/10);
 			stroke(255, 255, 255);
 			textAlign(CENTER, CENTER);
 			text(nicknames[p], playersx[p], playersy[p]);
-		//}
+		}
 	}
 }
 function random(min, max){
@@ -10571,21 +10575,21 @@ socket.on('cid', function(info, infotwo, infothree){
 	socketids.push(info);
 	nicknames.push(infothree);
 });
-socket.on('playerposition', function(theirx, theiry){
+/*socket.on('newplayer', function(theirx, theiry){
 	fill(0, 0, 0);
 	ellipse(theirx, theiry, widthorheight/10, widthorheight/10);
-});
+});*/
 socket.on('you', function(yerx, yery){
-	fill(0, 0, 0);
-	ellipse(yerx, yery, widthorheight/10, widthorheight/10);
+	//fill(0, 0, 0);
+	//ellipse(yerx, yery, widthorheight/10, widthorheight/10);
 	playersx.push(yerx);
 	playersy.push(yery);
 	socketids.push(mySocketID);
 	nicknames.push(nickname);
 });
 socket.on('them', function(themx, themy, themid, themname){
-	fill(0, 0, 0);
-	ellipse(themx, themy, widthorheight/10, widthorheight/10);
+	//fill(0, 0, 0);
+	//ellipse(themx, themy, widthorheight/10, widthorheight/10);
 	playersx.push(themx);
 	playersy.push(themy);
 	socketids.push(themid);
