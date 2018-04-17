@@ -10455,10 +10455,12 @@ function draw(){
 	background(100);
 	myposx = playersx[socketids.indexOf(mySocketID)];
 	myposy = playersy[socketids.indexOf(mySocketID)];
-	translate((myposx - (widthorheight/2)), (myposy - (widthorheight/2)));
-	ellipse(0, 0, widthorheight/10, widthorheight/10);
+	//translate((myposx - (widthorheight/2)), (myposy - (widthorheight/2)));
+	noStroke();
+	ellipse(widthorheight/2, widthorheight/2, widthorheight/10, widthorheight/10);
+	stroke(0, 0, 0);
 	textAlign(CENTER, CENTER);
-	text(nickname, 0, 0);
+	text(nickname, widthorheight/2, widthorheight/2);
 	translate((((-1)*myposx) + (widthorheight/2)), (((-1)*myposy) + (widthorheight/2)));
 
 	if(keyIsDown(LEFT_ARROW)){
