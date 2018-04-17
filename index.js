@@ -62,22 +62,22 @@ io.on('connection', function(socket){
 
 	
   socket.on('mlrqst', function(theclientsID){
-	playersx[clients.indexOf(theclientsID)] -= 1;
+	playersx[clients.indexOf(theclientsID)] -= 2;
 	socket.emit('ml', playersx[clients.indexOf(theclientsID)], playersy[clients.indexOf(theclientsID)], theclientsID);
 	socket.broadcast.emit('ml', playersx[clients.indexOf(theclientsID)], playersy[clients.indexOf(theclientsID)], theclientsID);
   });	
   socket.on('mrrqst', function(theclientsID){
-	playersx[clients.indexOf(theclientsID)] += 1;
+	playersx[clients.indexOf(theclientsID)] += 2;
 	socket.emit('mr', playersx[clients.indexOf(theclientsID)], playersy[clients.indexOf(theclientsID)], theclientsID);
 	socket.broadcast.emit('mr', playersx[clients.indexOf(theclientsID)], playersy[clients.indexOf(theclientsID)], theclientsID);
   });	
   socket.on('murqst', function(theclientsID){
-	playersy[clients.indexOf(theclientsID)] -= 1;
+	playersy[clients.indexOf(theclientsID)] -= 2;
 	socket.emit('mu', playersx[clients.indexOf(theclientsID)], playersy[clients.indexOf(theclientsID)], theclientsID);
 	socket.broadcast.emit('mu', playersx[clients.indexOf(theclientsID)], playersy[clients.indexOf(theclientsID)], theclientsID);
   });	
   socket.on('mdrqst', function(theclientsID){
-	playersy[clients.indexOf(theclientsID)] += 1;
+	playersy[clients.indexOf(theclientsID)] += 2;
 	socket.emit('md', playersx[clients.indexOf(theclientsID)], playersy[clients.indexOf(theclientsID)], theclientsID);
 	socket.broadcast.emit('md', playersx[clients.indexOf(theclientsID)], playersy[clients.indexOf(theclientsID)], theclientsID);
   });
