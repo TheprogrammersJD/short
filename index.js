@@ -38,7 +38,7 @@ io.on('connection', function(socket){
 	clients.push(clientid);
 	nicknames.push(nickname);
 	socket.broadcast.emit('cid', clientid, playersonline, nickname);
-	socket.emit('you', playersx[clients.indexOf(clientid)], playersy[clients.indexOf(clientid)]);
+	//socket.emit('you', playersx[clients.indexOf(clientid)], playersy[clients.indexOf(clientid)]);
 	for(var c = 0; c < clients.length; c++){
 		socket.emit('them', playersx[c], playersy[c], clients[c], nicknames[c]);
 	}
