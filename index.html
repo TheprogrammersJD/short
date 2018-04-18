@@ -10478,10 +10478,10 @@ function draw(){
 	else if(keyIsDown(68)){
 		moveright();
 	}
-	else if(keyIsDown(87)){
+	if(keyIsDown(UP_ARROW)){
 		moveup();
 	}
-	if(keyIsDown(UP_ARROW)){
+	else if(keyIsDown(87)){
 		moveup();
 	}
 	if(keyIsDown(DOWN_ARROW)){
