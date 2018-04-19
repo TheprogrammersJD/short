@@ -10410,7 +10410,7 @@ this.glTarget=c.TEXTURE_2D,this.glFormat=c.RGBA,this.mipmaps=!1,this.glMinFilter
 <script>
 
 var mySocketID = Math.round(((Math.random() + 1) * 10000))*Math.round(Math.random() * 10);
-var adjectives = ["red", "orange", "yellow", "green", "blue", "purple", "black", "pink", "brown", "raging", "ferocious", "awesome", "stinky", "camouflaged", "jumpy", "plastic", "sticky", "trapped", "metal", "furry", "sleeping", "snoring", "running", "walking", "crazy", "fighting", "flying", "gliding", "happy", "sad", "eating", "working", "typing", "climbing", "WORKING", "colorful", "typical", "common", "rare", "dirty", "clean", "proper", "rich", "poor", "loving", "wooden", "paper", "fake", "sneaky", "sly", "broken", "convicted", "young", "old", "aged", "firey", "burnt", "ancient", "unearthed", "discovered", "fluttering", "shivering", "lazy", "honest", "deceitful", "robotic", "burning", "smoking", "legendary", "contented", "talkative", "ridiculous", "colonial", "fabric", "fabricated", "squishy", "squished", "blank", "electronic", "pennyless", "broke", "burping", "lethargic", "shaking", "sick", "flowery", "frozen", "spinning", "fat", "rotation", "obese", "overweight", "worthless"];
+var adjectives = ["red", "orange", "yellow", "green", "blue", "purple", "black", "pink", "brown", "raging", "ferocious", "awesome", "stinky", "camouflaged", "jumpy", "plastic", "sticky", "trapped", "metal", "furry", "sleeping", "snoring", "running", "walking", "crazy", "fighting", "flying", "gliding", "happy", "sad", "eating", "working", "typing", "climbing", "WORKING", "colorful", "typical", "common", "rare", "dirty", "clean", "proper", "rich", "poor", "loving", "wooden", "paper", "fake", "sneaky", "sly", "broken", "convicted", "young", "old", "aged", "firey", "burnt", "ancient", "unearthed", "discovered", "fluttering", "shivering", "lazy", "honest", "deceitful", "robotic", "burning", "smoking", "legendary", "contented", "talkative", "ridiculous", "colonial", "fabric", "fabricated", "squishy", "squished", "blank", "electronic", "pennyless", "broke", "burping", "lethargic", "shaking", "sick", "flowery", "frozen", "spinning", "fat", "rotating", "obese", "overweight", "worthless"];
 var nouns = ["bear", "lion", "man", "car", "panda", "tiger", "cat", "dog", "hamster", "PROGRAMMER", "gamer", "employee", "employer", "thief", "theif", "firefighter", "wind", "boat", "sea", "gunner", "space", "air", "mouse", "kitten", "scab", "pizza", "ice-cream", "chocolate", "grapes", "horse", "government", "president", "leader", "convict", "ball", "treasure", "pearl", "gem", "chest", "box", "apple", "block", "snake", "bird", "ship", "tulip", "coupon", "pauper", "prince", "princess", "king", "queen", "peasant", "musician", "knight", "castle", "chimney", "chimneysweep", "slave", "servant", "advertisement", "mushroom", "manager", "dancer", "giraffe", "mermaid", "unicorn", "dragon", "book"];
 var nickname = adjectives[(Math.ceil(Math.random()*adjectives.length))-1]+"-"+nouns[(Math.ceil(Math.random()*nouns.length))-1]+"-"+(Math.ceil(Math.random()*1000));
 var myposx = 0;
@@ -10420,8 +10420,7 @@ var playersy = [];
 var play = false;
 var socketids = [];
 var nicknames = [];
-
-
+var mapsize = 3;
 
 
 /*function nickname(){
@@ -10453,7 +10452,61 @@ function setup(){
 	
 	
 function draw(){
-	background(100);
+	background(255, 255, 255);
+	translate((((-1)*myposx) + (widthorheight/2)), (((-1)*myposy) + (widthorheight/2)));
+	
+	for(var w = (-widthorheight/2)*mapsize; w < (widthorheight/2)*mapsize; w += (widthorheight/10)){
+		strokeWeight(1);
+		stroke(0, 255, 255);
+		
+		//The grid x
+		if(w < myposx + (widthorheight/2)&&w > myposx - (widthorheight/2)){
+			line(w, widthorheight * (widthorheight/10), w, -widthorheight * (widthorheight/10));
+		}
+		noStroke();
+	}
+	for(var y = (-widthorheight/2)*mapsize; y < (widthorheight/2)*mapsize; y += (widthorheight/10)){
+		strokeWeight(1);
+		stroke(0, 255, 255);
+		
+		//The grid y
+		if(y < myposy + (widthorheight/2)&&y > myposy - (widthorheight/2)){
+			line(-widthorheight * (widthorheight/10), y, widthorheight * (widthorheight/10), y);
+		}
+		noStroke();
+	}
+	
+	//for(var w = Math.abs(myposx) - ((widthorheight/4)/(widthorheight/10)); w < (Math.abs(myposx)/(widthorheight/10)) + ((widthorheight/4)/(widthorheight/10)); w++){
+		//strokeWeight(1);
+		//stroke(0, 255, 255);
+		//The diagonal boxes around the center
+		/*line(0, w * (widthorheight/10), -w * (widthorheight/10), 0);
+		line(w * (widthorheight/10), 0, 0,  -w * (widthorheight/10));
+		line(0, -w * (widthorheight/10), -w * (widthorheight/10), 0);
+		line(w * (widthorheight/10), 0, 0,  w * (widthorheight/10));*/
+		
+		//The grid
+		//line(-w * (widthorheight/10), widthorheight * (widthorheight/10), -w * (widthorheight/10), -widthorheight * (widthorheight/10));
+		//line(w * (widthorheight/10), widthorheight * (widthorheight/10), w * (widthorheight/10), -widthorheight * (widthorheight/10));
+		//line(-widthorheight * (widthorheight/10), -w * (widthorheight/10), widthorheight * (widthorheight/10), -w * (widthorheight/10));
+		//line(-widthorheight * (widthorheight/10), w * (widthorheight/10), widthorheight * (widthorheight/10), w * (widthorheight/10));
+		
+		//noStroke();
+	//}
+	
+	for(var p = 0; p < socketids.length; p++){
+		if(p == socketids.indexOf(mySocketID)){}
+		else{
+			fill(0, 0, 0);
+			ellipse(playersx[p], playersy[p], widthorheight/10, widthorheight/10);
+			noStroke();
+			fill(255, 255, 255);
+			textAlign(CENTER, CENTER);
+			text(nicknames[p], playersx[p], playersy[p]);
+		}
+	}
+	translate((((1)*myposx) - (widthorheight/2)), (((1)*myposy) - (widthorheight/2)));
+	
 	myposx = playersx[socketids.indexOf(mySocketID)];
 	myposy = playersy[socketids.indexOf(mySocketID)];
 	//stroke(255, 255, 255);
@@ -10464,7 +10517,7 @@ function draw(){
 	fill(255, 255, 255)
 	text(nickname, widthorheight/2, widthorheight/2);
 	
-	translate((((-1)*myposx) + (widthorheight/2)), (((-1)*myposy) + (widthorheight/2)));
+	
 
 	if(keyIsDown(LEFT_ARROW)){
 		moveleft();
@@ -10489,19 +10542,6 @@ function draw(){
 	}
 	else if(keyIsDown(83)){
 		movedown();
-	}
-	
-	
-	for(var p = 0; p < socketids.length; p++){
-		if(p == socketids.indexOf(mySocketID)){}
-		else{
-			fill(0, 0, 0);
-			ellipse(playersx[p], playersy[p], widthorheight/10, widthorheight/10);
-			noStroke();
-			fill(255, 255, 255);
-			textAlign(CENTER, CENTER);
-			text(nicknames[p], playersx[p], playersy[p]);
-		}
 	}
 }
 function random(min, max){
