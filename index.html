@@ -26,7 +26,7 @@
 <input id = "name" value = "anonymous" type = "text" placeholder = "anonymous" autofocus></input>
 <button onClick = "nickname()">PLAY</button>-->
 <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
-<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+<!--script src="https://code.jquery.com/jquery-1.11.1.js"></script-->
 <script>/*!
  * jQuery JavaScript Library v3.3.1
  * https://jquery.com/
@@ -10420,7 +10420,14 @@ var playersy = [];
 var play = false;
 var socketids = [];
 var nicknames = [];
-var mapsize = 3;
+var mapsize = 5;
+
+var buggeesx = [];
+var buggeesy = [];
+var buggeesr = [];
+var buggeesg = [];
+var buggeesb = [];
+var buggeesalive = [];
 
 
 /*function nickname(){
@@ -10453,25 +10460,35 @@ function setup(){
 	
 function draw(){
 	background(255, 255, 255);
-	translate((((-1)*myposx) + (widthorheight/2)), (((-1)*myposy) + (widthorheight/2)));
+	//fill(123.0000003568888888888658547846, 34, 78);
+	//ellipse(mouseX, mouseY, (widthorheight/10), (widthorheight/10));
 	
-	for(var w = (-widthorheight/2)*mapsize; w < (widthorheight/2)*mapsize; w += (widthorheight/10)){
+	translate((((-1)*myposx) + (widthorheight/2)), (((-1)*myposy) + (widthorheight/2)));
+	for(var buuu = 0; buuu < buggeesalive.length; buuu++){
+		if(buggeesalive[buuu] == true){
+			if(buggeesx[buuu] < myposx + (widthorheight/2)&&buggeesx[buuu] > myposx - (widthorheight/2)&&buggeesy[buuu] < myposy + (widthorheight/2)&&buggeesy[buuu] > myposy - (widthorheight/2)){
+				fill(buggeesr[buuu], buggeesg[buuu], buggeesb[buuu]);
+				ellipse(buggeesx[buuu], buggeesy[buuu], (widthorheight/30), (widthorheight/30));
+			}
+		}
+	}
+	for(var w = (-1000)*mapsize; w < (1000)*mapsize; w += (widthorheight/10)){
 		strokeWeight(1);
 		stroke(0, 255, 255);
 		
 		//The grid x
 		if(w < myposx + (widthorheight/2)&&w > myposx - (widthorheight/2)){
-			line(w, widthorheight * (widthorheight/10), w, -widthorheight * (widthorheight/10));
+			line(w, 1000 * mapsize, w, -1000 * mapsize);
 		}
 		noStroke();
 	}
-	for(var y = (-widthorheight/2)*mapsize; y < (widthorheight/2)*mapsize; y += (widthorheight/10)){
+	for(var y = (-1000)*mapsize; y < (1000)*mapsize; y += (widthorheight/10)){
 		strokeWeight(1);
 		stroke(0, 255, 255);
 		
 		//The grid y
 		if(y < myposy + (widthorheight/2)&&y > myposy - (widthorheight/2)){
-			line(-widthorheight * (widthorheight/10), y, widthorheight * (widthorheight/10), y);
+			line(-1000 * mapsize, y, 1000 * mapsize, y);
 		}
 		noStroke();
 	}
@@ -10493,7 +10510,6 @@ function draw(){
 		
 		//noStroke();
 	//}
-	
 	for(var p = 0; p < socketids.length; p++){
 		if(p == socketids.indexOf(mySocketID)){}
 		else{
@@ -10505,6 +10521,7 @@ function draw(){
 			text(nicknames[p], playersx[p], playersy[p]);
 		}
 	}
+
 	translate((((1)*myposx) - (widthorheight/2)), (((1)*myposy) - (widthorheight/2)));
 	
 	myposx = playersx[socketids.indexOf(mySocketID)];
@@ -10606,8 +10623,8 @@ socket.on('md', function(x, y, therID){
 	playersx[socketids.indexOf(therID)] = x;
 	playersy[socketids.indexOf(therID)] = y;
 });
-socket.on('cid', function(info, infotwo, infothree){
-	console.log("Player #" + info + " with the name '" + infothree + "' joined and spawned at X: 0, Y: 0. Now there are a total of " + infotwo + " players online! Hooray!");
+socket.on('cid', function(info, infotwo, infothree, ifour, ifive){
+	console.log("Player #" + info + " with the name '" + infothree + "' joined and spawned at X: " + ifour + ", Y: " + ifive + ". Now there are a total of " + infotwo + " players online! Hooray!");
 	playersx.push(0);
 	playersy.push(0);
 	socketids.push(info);
@@ -10626,6 +10643,22 @@ socket.on('them', function(themx, themy, themid, themname){
 	playersy.push(themy);
 	socketids.push(themid);
 	nicknames.push(themname);
+});
+socket.on('bugs', function(bugx, bugy, bugalive){
+	buggeesx.push(bugx);
+	buggeesy.push(bugy);
+	buggeesr.push(random(1, 255));
+	buggeesg.push(random(1, 255));
+	buggeesb.push(random(1, 255));
+	buggeesalive.push(bugalive);
+	//console.log(bugx +"    "+ bugy +"   "+"   "+ bugr +"    "+ bugg +"    "+ bugb +"    "+ bugalive);
+	//console.log(buggeesx.length);
+});
+socket.on('mapsize', function(ms){
+	mapsize = ms;
+});
+socket.on('deadbug', function(number){
+	buggeesalive[number] = false;
 });
 </script>
 </body>
