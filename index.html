@@ -10417,6 +10417,9 @@ var myposx = 0;
 var myposy = 0;
 var playersx = [];
 var playersy = [];
+var playerr = [];
+var playerg = [];
+var playerb = [];
 var play = false;
 var socketids = [];
 var nicknames = [];
@@ -10454,6 +10457,7 @@ function setup(){
 	createCanvas(widthorheight, widthorheight);
 	background(100);
 	noStroke();
+	rectMode(RADIUS);
 }
 	
 	
@@ -10462,16 +10466,8 @@ function draw(){
 	background(255, 255, 255);
 	//fill(123.0000003568888888888658547846, 34, 78);
 	//ellipse(mouseX, mouseY, (widthorheight/10), (widthorheight/10));
-	
+	move(mouseX, mouseY);
 	translate((((-1)*myposx) + (widthorheight/2)), (((-1)*myposy) + (widthorheight/2)));
-	for(var buuu = 0; buuu < buggeesalive.length; buuu++){
-		if(buggeesalive[buuu] == true){
-			if(buggeesx[buuu] < myposx + (widthorheight/2)&&buggeesx[buuu] > myposx - (widthorheight/2)&&buggeesy[buuu] < myposy + (widthorheight/2)&&buggeesy[buuu] > myposy - (widthorheight/2)){
-				fill(buggeesr[buuu], buggeesg[buuu], buggeesb[buuu]);
-				ellipse(buggeesx[buuu], buggeesy[buuu], (widthorheight/30), (widthorheight/30));
-			}
-		}
-	}
 	for(var w = (-1000)*mapsize; w < (1000)*mapsize; w += (widthorheight/10)){
 		strokeWeight(1);
 		stroke(0, 255, 255);
@@ -10492,7 +10488,19 @@ function draw(){
 		}
 		noStroke();
 	}
-	
+	for(var buuu = 0; buuu < buggeesalive.length; buuu++){
+		if(buggeesalive[buuu] == true){
+			if(buggeesx[buuu] < myposx + (widthorheight/2)&&buggeesx[buuu] > myposx - (widthorheight/2)&&buggeesy[buuu] < myposy + (widthorheight/2)&&buggeesy[buuu] > myposy - (widthorheight/2)){
+				fill(buggeesr[buuu], buggeesg[buuu], buggeesb[buuu]);
+				ellipse(buggeesx[buuu], buggeesy[buuu], (widthorheight/30), (widthorheight/30));
+				fill(0, 0, 0, 0);
+				/*strokeWeight(1);
+				stroke(0, 0, 0);
+				ellipse(buggeesx[buuu], buggeesy[buuu], 50, 50);
+				noStroke();*/
+			}
+		}
+	}
 	//for(var w = Math.abs(myposx) - ((widthorheight/4)/(widthorheight/10)); w < (Math.abs(myposx)/(widthorheight/10)) + ((widthorheight/4)/(widthorheight/10)); w++){
 		//strokeWeight(1);
 		//stroke(0, 255, 255);
@@ -10513,10 +10521,10 @@ function draw(){
 	for(var p = 0; p < socketids.length; p++){
 		if(p == socketids.indexOf(mySocketID)){}
 		else{
-			fill(0, 0, 0);
+			fill(playerr[p], playerg[p], playerb[p]);
 			ellipse(playersx[p], playersy[p], widthorheight/10, widthorheight/10);
 			noStroke();
-			fill(255, 255, 255);
+			fill(0, 0, 0);
 			textAlign(CENTER, CENTER);
 			text(nicknames[p], playersx[p], playersy[p]);
 		}
@@ -10527,11 +10535,11 @@ function draw(){
 	myposx = playersx[socketids.indexOf(mySocketID)];
 	myposy = playersy[socketids.indexOf(mySocketID)];
 	//stroke(255, 255, 255);
-	fill(0, 0, 0);
+	fill(playerr[socketids.indexOf(mySocketID)], playerg[socketids.indexOf(mySocketID)], playerb[socketids.indexOf(mySocketID)]);
 	ellipse(widthorheight/2, widthorheight/2, widthorheight/10, widthorheight/10);
 	textAlign(CENTER, CENTER);
 	noStroke();
-	fill(255, 255, 255)
+	fill(0, 0, 0)
 	text(nickname, widthorheight/2, widthorheight/2);
 	
 	
@@ -10560,7 +10568,25 @@ function draw(){
 	else if(keyIsDown(83)){
 		movedown();
 	}
+	
+	strokeWeight(1);
+	stroke(0, 0, 0);
+	fill(255, 255, 255);
+	rect((widthorheight/9)*8, (widthorheight/9)*8, (widthorheight/15), (widthorheight/15));
+	noStroke();
+	
+	translate((widthorheight/9)*8, (widthorheight/9)*8);
+	for(var pl = 0; pl < playersx.length; pl++){
+		strokeWeight(1);
+		stroke(0, 0, 0);
+		ellipse((playersx[pl]/((mapsize*2000)/(widthorheight/15)))*2, (playersy[pl]/((mapsize*2000)/(widthorheight/15)))*2, widthorheight/9999, widthorheight/9999);
+	}
 }
+
+function mousePressed(){
+	
+}
+
 function random(min, max){
 	numtoreturn = max - min;
 	numtoreturn = Math.random()*numtoreturn;
@@ -10601,6 +10627,12 @@ function movedown(){
 	socket.emit('mdrqst', mySocketID);
 	return false;
 }
+
+function move(dx, dy){
+	socket.emit('mrqst', mySocketID, dx - (widthorheight/2), dy - (widthorheight/2));
+	console.log(dx + ", " + dy);
+	return false;
+}
 	
 	
 socket.on('click', function(x, y){
@@ -10623,26 +10655,33 @@ socket.on('md', function(x, y, therID){
 	playersx[socketids.indexOf(therID)] = x;
 	playersy[socketids.indexOf(therID)] = y;
 });
-socket.on('cid', function(info, infotwo, infothree, ifour, ifive){
+socket.on('cid', function(info, infotwo, infothree, ifour, ifive, isix, iseven, ieight){
 	console.log("Player #" + info + " with the name '" + infothree + "' joined and spawned at X: " + ifour + ", Y: " + ifive + ". Now there are a total of " + infotwo + " players online! Hooray!");
 	playersx.push(0);
 	playersy.push(0);
 	socketids.push(info);
 	nicknames.push(infothree);
+	playerr.push(isix);
+	playerg.push(iseven);
+	playerb.push(ieight);
 });
-/*socket.on('you', function(yerx, yery){
-	//fill(0, 0, 0);
-	//ellipse(yerx, yery, widthorheight/10, widthorheight/10);
-	playersx.push(yerx);
-	playersy.push(yery);
-	socketids.push(mySocketID);
-	nicknames.push(nickname);
+/*socket.on('color', function(r, g, b){
+	playerr.push(r);
+	playerg.push(g);
+	playerb.push(b);
 });*/
-socket.on('them', function(themx, themy, themid, themname){
+socket.on('mover', function(x, y, id){
+	playersx[socketids.indexOf(id)] = x;
+	playersy[socketids.indexOf(id)] = y;
+});
+socket.on('them', function(themx, themy, themid, themname, r, g, b){
 	playersx.push(themx);
 	playersy.push(themy);
 	socketids.push(themid);
 	nicknames.push(themname);
+	playerr.push(r);
+	playerg.push(g);
+	playerb.push(b);
 });
 socket.on('bugs', function(bugx, bugy, bugalive){
 	buggeesx.push(bugx);
@@ -10658,7 +10697,7 @@ socket.on('mapsize', function(ms){
 	mapsize = ms;
 });
 socket.on('deadbug', function(number){
-	buggeesalive[number] = false;
+	buggeesalive[buggeesx.indexOf(number)] = false;
 });
 </script>
 </body>
