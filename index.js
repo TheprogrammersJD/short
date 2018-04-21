@@ -22,6 +22,8 @@ var playersonline = 0;
 var clients = [];
 var nicknames = [];
 var playercolors = [];
+var playersmass = [];
+
 var buggeesx = [];
 var buggeesy = [];
 /*var buggeesr = [];
@@ -58,6 +60,7 @@ io.on('connection', function(socket){
   playersonline++;
   playersx.push(getRandomArbitrary((-500*mapsize), (500*mapsize)));
   playersy.push(getRandomArbitrary((-500*mapsize), (500*mapsize)));
+  playersmass.push(10);
   playerr.push(getRandomArbitrary(50, 230));
   playerg.push(getRandomArbitrary(50, 230));
   playerb.push(getRandomArbitrary(50, 230));
@@ -70,11 +73,12 @@ io.on('connection', function(socket){
 	nicknames.push(nickname);
 	
 	//socket.emit("color", playerr[clients.indexOf(clientid)], playerg[clients.indexOf(clientid)], playerb[clients.indexOf(clientid)]);
-	socket.broadcast.emit('cid', clientid, playersonline, nickname, playersx[clients.indexOf(clientid)], playersy[clients.indexOf(clientid)], playerr[clients.indexOf(clientid)], playerg[clients.indexOf(clientid)], playerb[clients.indexOf(clientid)]);
+	socket.broadcast.emit('cid', clientid, playersonline, nickname, playersx[clients.indexOf(clientid)], playersy[clients.indexOf(clientid)], playerr[clients.indexOf(clientid)], playerg[clients.indexOf(clientid)], playerb[clients.indexOf(clientid)], playersmass[clients.indexOf(clientid)]);
 	//socket.emit('you', playersx[clients.indexOf(clientid)], playersy[clients.indexOf(clientid)]);
 	for(var c = 0; c < clients.length; c++){
-		socket.emit('them', playersx[c], playersy[c], clients[c], nicknames[c], playerr[c], playerg[c], playerb[c]);
+		socket.emit('them', playersx[c], playersy[c], clients[c], nicknames[c], playerr[c], playerg[c], playerb[c], playersmass[c]);
 	}
+	//socket.emit("mass", playersmass[clients.indexOf(clientid)]);
 	for(var b = 0; b < buggeesalive.length; b++){
 		if(buggeesalive[b] == true){
 			socket.emit('bugs', buggeesx[b], buggeesy[b], buggeesalive[b]);
@@ -122,28 +126,34 @@ io.on('connection', function(socket){
 	  //console.log(dx + ", " + dy);
 	  //console.log(angle);
 	  
-	  if(angle < 0&&dx > 0&&dy < 0){
-		  playersx[clients.indexOf(ID)] -= Math.sin(angle)*5;
-		  playersy[clients.indexOf(ID)] -= Math.cos(angle)*5;
+	  if(angle < 0&&dx > 0&&dy < 0&&playersx[clients.indexOf(ID)] < (1000*mapsize)&&playersy[clients.indexOf(ID)] > (-1000*mapsize)){
+		playersx[clients.indexOf(ID)] -= (Math.sin(angle)*7);//(Math.pow(playersmass[clients.indexOf(ID)], 2)/100);
+		playersy[clients.indexOf(ID)] -= (Math.cos(angle)*7);//(Math.pow(playersmass[clients.indexOf(ID)], 2)/100);
 	  }
-	  if(angle > 0&&dx < 0&&dy < 0){
-		  playersx[clients.indexOf(ID)] -= Math.sin(angle)*5;
-		  playersy[clients.indexOf(ID)] -= Math.cos(angle)*5;
+	  if(angle > 0&&dx < 0&&dy < 0&&playersx[clients.indexOf(ID)] > (-1000*mapsize)&&playersy[clients.indexOf(ID)] > (-1000*mapsize)){
+		  playersx[clients.indexOf(ID)] -= (Math.sin(angle)*7);//(Math.pow(playersmass[clients.indexOf(ID)], 2)/100);
+		  playersy[clients.indexOf(ID)] -= (Math.cos(angle)*7);//(Math.pow(playersmass[clients.indexOf(ID)], 2)/100);
 	  }
-	  if(angle < 0&&dx < 0&&dy > 0){
-		  playersx[clients.indexOf(ID)] += Math.sin(angle)*5;
-		  playersy[clients.indexOf(ID)] += Math.cos(angle)*5;
+	  if(angle < 0&&dx < 0&&dy > 0&&playersx[clients.indexOf(ID)] > (-1000*mapsize)&&playersy[clients.indexOf(ID)] < (1000*mapsize)){
+		  playersx[clients.indexOf(ID)] += (Math.sin(angle)*7);//(Math.pow(playersmass[clients.indexOf(ID)], 2)/100);
+		  playersy[clients.indexOf(ID)] += (Math.cos(angle)*7);//(Math.pow(playersmass[clients.indexOf(ID)], 2)/100);
 	  }
-	  if(angle > 0&&dx > 0&&dy > 0){
-		  playersx[clients.indexOf(ID)] += Math.sin(angle)*5;
-		  playersy[clients.indexOf(ID)] += Math.cos(angle)*5;
+	  if(angle > 0&&dx > 0&&dy > 0&&playersx[clients.indexOf(ID)] < (1000*mapsize)&&playersy[clients.indexOf(ID)] < (1000*mapsize)){
+		  playersx[clients.indexOf(ID)] += (Math.sin(angle)*7);//(Math.pow(playersmass[clients.indexOf(ID)], 2)/100);
+		  playersy[clients.indexOf(ID)] += (Math.cos(angle)*7);//(Math.pow(playersmass[clients.indexOf(ID)], 2)/100);
 	  }
 	  
 	for(var bug = 0; bug < buggeesalive.length; bug++){
 		if(buggeesalive[bug] == true){
-			if(Math.sqrt(Math.pow((Math.abs(playersx[clients.indexOf(ID)]) - Math.abs(buggeesx[bug])), 2) + Math.pow((Math.abs(playersy[clients.indexOf(ID)]) - Math.abs(buggeesy[bug])), 2)) < 100){
+			if(Math.sqrt(Math.pow((Math.abs(playersx[clients.indexOf(ID)]) - Math.abs(buggeesx[bug])), 2) + Math.pow((Math.abs(playersy[clients.indexOf(ID)]) - Math.abs(buggeesy[bug])), 2)) < 100*(Math.log10(playersmass[clients.indexOf(ID)]))){
 				buggeesalive[bug] = false;
 				bugsliving--;
+				
+				playersmass[clients.indexOf(ID)] += 1;
+				
+				socket.emit('mass', playersmass[clients.indexOf(ID)], ID);
+				socket.broadcast.emit('mass', playersmass[clients.indexOf(ID)], ID);
+				
 				socket.emit('deadbug', buggeesx[bug]);
 				socket.broadcast.emit('deadbug', buggeesx[bug]);
 			}
