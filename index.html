@@ -10423,7 +10423,11 @@ var playerb = [];
 var play = false;
 var socketids = [];
 var nicknames = [];
+var playersmass = [];
 var mapsize = 5;
+
+var view = 1;
+var size;
 
 var buggeesx = [];
 var buggeesy = [];
@@ -10431,6 +10435,7 @@ var buggeesr = [];
 var buggeesg = [];
 var buggeesb = [];
 var buggeesalive = [];
+
 
 
 /*function nickname(){
@@ -10463,36 +10468,38 @@ function setup(){
 	
 	
 function draw(){
+	//size = (playersmass[socketids.indexOf(mySocketID)]*2)/3;
+	view = Math.log10(playersmass[socketids.indexOf(mySocketID)]);
 	background(255, 255, 255);
 	//fill(123.0000003568888888888658547846, 34, 78);
 	//ellipse(mouseX, mouseY, (widthorheight/10), (widthorheight/10));
 	move(mouseX, mouseY);
-	translate((((-1)*myposx) + (widthorheight/2)), (((-1)*myposy) + (widthorheight/2)));
-	for(var w = (-1000)*mapsize; w < (1000)*mapsize; w += (widthorheight/10)){
+	translate((((-1)*myposx/view) + (widthorheight/2)), (((-1)*myposy/view) + (widthorheight/2)));
+	for(var w = (-1000)*mapsize/view; w < (1000)*mapsize/view; w += 100/view){
 		strokeWeight(1);
 		stroke(0, 255, 255);
 		
 		//The grid x
-		if(w < myposx + (widthorheight/2)&&w > myposx - (widthorheight/2)){
-			line(w, 1000 * mapsize, w, -1000 * mapsize);
+		if(w < myposx/view + (widthorheight/2)&&w > myposx/view - (widthorheight/2)){
+			line(w, 1000 * mapsize/view, w, -1000 * mapsize/view);
 		}
 		noStroke();
 	}
-	for(var y = (-1000)*mapsize; y < (1000)*mapsize; y += (widthorheight/10)){
+	for(var y = (-1000)*mapsize/view; y < (1000)*mapsize/view; y += 100/view){
 		strokeWeight(1);
 		stroke(0, 255, 255);
 		
 		//The grid y
-		if(y < myposy + (widthorheight/2)&&y > myposy - (widthorheight/2)){
-			line(-1000 * mapsize, y, 1000 * mapsize, y);
+		if(y < myposy/view + (widthorheight/2)&&y > myposy/view - (widthorheight/2)){
+			line(-1000 * mapsize/view, y, 1000 * mapsize/view, y);
 		}
 		noStroke();
 	}
 	for(var buuu = 0; buuu < buggeesalive.length; buuu++){
 		if(buggeesalive[buuu] == true){
-			if(buggeesx[buuu] < myposx + (widthorheight/2)&&buggeesx[buuu] > myposx - (widthorheight/2)&&buggeesy[buuu] < myposy + (widthorheight/2)&&buggeesy[buuu] > myposy - (widthorheight/2)){
+			if(buggeesx[buuu]/view < myposx/view + (widthorheight/2)&&buggeesx[buuu]/view > myposx/view - (widthorheight/2)&&buggeesy[buuu]/view < myposy/view + (widthorheight/2)&&buggeesy[buuu]/view > myposy/view - (widthorheight/2)){
 				fill(buggeesr[buuu], buggeesg[buuu], buggeesb[buuu]);
-				ellipse(buggeesx[buuu], buggeesy[buuu], (widthorheight/30), (widthorheight/30));
+				ellipse(buggeesx[buuu]/view, buggeesy[buuu]/view, (widthorheight/30)/view, (widthorheight/30)/view);
 				fill(0, 0, 0, 0);
 				/*strokeWeight(1);
 				stroke(0, 0, 0);
@@ -10522,29 +10529,29 @@ function draw(){
 		if(p == socketids.indexOf(mySocketID)){}
 		else{
 			fill(playerr[p], playerg[p], playerb[p]);
-			ellipse(playersx[p], playersy[p], widthorheight/10, widthorheight/10);
+			ellipse(playersx[p]/view, playersy[p]/view, (100)*Math.log10(playersmass[p])/view, (100)*Math.log10(playersmass[p])/view);
 			noStroke();
 			fill(0, 0, 0);
 			textAlign(CENTER, CENTER);
-			text(nicknames[p], playersx[p], playersy[p]);
+			text(nicknames[p] + "\n" + playersmass[p], playersx[p], playersy[p]);
 		}
 	}
 
-	translate((((1)*myposx) - (widthorheight/2)), (((1)*myposy) - (widthorheight/2)));
+	translate((((1)*myposx/view) - (widthorheight/2)), (((1)*myposy/view) - (widthorheight/2)));
 	
 	myposx = playersx[socketids.indexOf(mySocketID)];
 	myposy = playersy[socketids.indexOf(mySocketID)];
 	//stroke(255, 255, 255);
 	fill(playerr[socketids.indexOf(mySocketID)], playerg[socketids.indexOf(mySocketID)], playerb[socketids.indexOf(mySocketID)]);
-	ellipse(widthorheight/2, widthorheight/2, widthorheight/10, widthorheight/10);
+	ellipse(widthorheight/2, widthorheight/2, (widthorheight/10)*Math.log10(playersmass[socketids.indexOf(mySocketID)]), (widthorheight/10)*Math.log10(playersmass[socketids.indexOf(mySocketID)]));
 	textAlign(CENTER, CENTER);
 	noStroke();
 	fill(0, 0, 0)
-	text(nickname, widthorheight/2, widthorheight/2);
+	text(nickname + "\n" + playersmass[socketids.indexOf(mySocketID)], widthorheight/2, widthorheight/2);
 	
 	
 
-	if(keyIsDown(LEFT_ARROW)){
+	/*if(keyIsDown(LEFT_ARROW)){
 		moveleft();
 	}
 	else if(keyIsDown(65)){
@@ -10567,7 +10574,7 @@ function draw(){
 	}
 	else if(keyIsDown(83)){
 		movedown();
-	}
+	}*/
 	
 	strokeWeight(1);
 	stroke(0, 0, 0);
@@ -10577,9 +10584,18 @@ function draw(){
 	
 	translate((widthorheight/9)*8, (widthorheight/9)*8);
 	for(var pl = 0; pl < playersx.length; pl++){
-		strokeWeight(1);
-		stroke(0, 0, 0);
-		ellipse((playersx[pl]/((mapsize*2000)/(widthorheight/15)))*2, (playersy[pl]/((mapsize*2000)/(widthorheight/15)))*2, widthorheight/9999, widthorheight/9999);
+		if(pl == socketids.indexOf(mySocketID)){
+			strokeWeight(1);
+			stroke(0, 255, 0);
+			fill(0, 255, 0);
+			ellipse((playersx[pl]/((mapsize*2000)/(widthorheight/15)))*2, (playersy[pl]/((mapsize*2000)/(widthorheight/15)))*2, (playersmass[pl]/((mapsize*2000)/(widthorheight/15)))*2, (playersmass[pl]/((mapsize*2000)/(widthorheight/15)))*2);
+		}
+		else{
+			strokeWeight(1);
+			stroke(255, 0, 0);
+			fill(255, 0, 0);
+			ellipse((playersx[pl]/((mapsize*2000)/(widthorheight/15)))*2, (playersy[pl]/((mapsize*2000)/(widthorheight/15)))*2, (playersmass[pl]/((mapsize*2000)/(widthorheight/15)))*2, (playersmass[pl]/((mapsize*2000)/(widthorheight/15)))*2);
+		}
 	}
 }
 
@@ -10611,7 +10627,7 @@ function click(coordx, coordy){
 	socket.emit('click', coordx, coordy);
 	return false;
 }
-function moveleft(){
+/*function moveleft(){
 	socket.emit('mlrqst', mySocketID);
 	return false;
 }
@@ -10626,7 +10642,7 @@ function moveup(){
 function movedown(){
 	socket.emit('mdrqst', mySocketID);
 	return false;
-}
+}*/
 
 function move(dx, dy){
 	socket.emit('mrqst', mySocketID, dx - (widthorheight/2), dy - (widthorheight/2));
@@ -10655,7 +10671,7 @@ socket.on('md', function(x, y, therID){
 	playersx[socketids.indexOf(therID)] = x;
 	playersy[socketids.indexOf(therID)] = y;
 });
-socket.on('cid', function(info, infotwo, infothree, ifour, ifive, isix, iseven, ieight){
+socket.on('cid', function(info, infotwo, infothree, ifour, ifive, isix, iseven, ieight, inine){
 	console.log("Player #" + info + " with the name '" + infothree + "' joined and spawned at X: " + ifour + ", Y: " + ifive + ". Now there are a total of " + infotwo + " players online! Hooray!");
 	playersx.push(0);
 	playersy.push(0);
@@ -10664,6 +10680,7 @@ socket.on('cid', function(info, infotwo, infothree, ifour, ifive, isix, iseven, 
 	playerr.push(isix);
 	playerg.push(iseven);
 	playerb.push(ieight);
+	playersmass.push(inine);
 });
 /*socket.on('color', function(r, g, b){
 	playerr.push(r);
@@ -10674,7 +10691,7 @@ socket.on('mover', function(x, y, id){
 	playersx[socketids.indexOf(id)] = x;
 	playersy[socketids.indexOf(id)] = y;
 });
-socket.on('them', function(themx, themy, themid, themname, r, g, b){
+socket.on('them', function(themx, themy, themid, themname, r, g, b, mass){
 	playersx.push(themx);
 	playersy.push(themy);
 	socketids.push(themid);
@@ -10682,13 +10699,14 @@ socket.on('them', function(themx, themy, themid, themname, r, g, b){
 	playerr.push(r);
 	playerg.push(g);
 	playerb.push(b);
+	playersmass.push(mass);
 });
 socket.on('bugs', function(bugx, bugy, bugalive){
 	buggeesx.push(bugx);
 	buggeesy.push(bugy);
-	buggeesr.push(random(1, 255));
-	buggeesg.push(random(1, 255));
-	buggeesb.push(random(1, 255));
+	buggeesr.push(random(1, 220));
+	buggeesg.push(random(1, 220));
+	buggeesb.push(random(1, 220));
 	buggeesalive.push(bugalive);
 	//console.log(bugx +"    "+ bugy +"   "+"   "+ bugr +"    "+ bugg +"    "+ bugb +"    "+ bugalive);
 	//console.log(buggeesx.length);
@@ -10698,6 +10716,9 @@ socket.on('mapsize', function(ms){
 });
 socket.on('deadbug', function(number){
 	buggeesalive[buggeesx.indexOf(number)] = false;
+});
+socket.on('mass', function(mass, ID){
+	playersmass[socketids.indexOf(ID)] = mass;;
 });
 </script>
 </body>
