@@ -10420,11 +10420,15 @@ var playersy = [];
 var playerr = [];
 var playerg = [];
 var playerb = [];
+var playersalive = [];
 var play = false;
 var socketids = [];
 var nicknames = [];
 var playersmass = [];
 var mapsize = 5;
+var youDed = false;
+var youDead = false;
+var youreater;
 
 var view = 1;
 var size;
@@ -10469,12 +10473,26 @@ function setup(){
 	
 function draw(){
 	//size = (playersmass[socketids.indexOf(mySocketID)]*2)/3;
-	view = Math.log10(playersmass[socketids.indexOf(mySocketID)]);
+	if(playersalive[socketids.indexOf(mySocketID)] == true){
+		view = (1/(widthorheight/playersmass[socketids.indexOf(mySocketID)]))*5;
+	}
+	else{
+		view = (1/(widthorheight/playersmass[socketids.indexOf(youreater)]))*5;
+	}
+	//Math.log10(playersmass[socketids.indexOf(mySocketID)]);
 	background(255, 255, 255);
 	//fill(123.0000003568888888888658547846, 34, 78);
 	//ellipse(mouseX, mouseY, (widthorheight/10), (widthorheight/10));
 	move(mouseX, mouseY);
-	translate((((-1)*myposx/view) + (widthorheight/2)), (((-1)*myposy/view) + (widthorheight/2)));
+	if(youDed == false){
+		translate((((-1)*myposx/view) + (widthorheight/2)), (((-1)*myposy/view) + (widthorheight/2)));
+	}
+	else{
+		translate((((-1)*playersx[socketids.indexOf(youreater)]/view) + (widthorheight/2)), (((-1)*playersy[socketids.indexOf(youreater)]/view) + (widthorheight/2)));
+		youDead = true;
+		myposx = playersx[socketids.indexOf(youreater)];
+		myposy = playersy[socketids.indexOf(youreater)];
+	}
 	for(var w = (-1000)*mapsize/view; w < (1000)*mapsize/view; w += 100/view){
 		strokeWeight(1);
 		stroke(0, 255, 255);
@@ -10528,26 +10546,38 @@ function draw(){
 	for(var p = 0; p < socketids.length; p++){
 		if(p == socketids.indexOf(mySocketID)){}
 		else{
-			fill(playerr[p], playerg[p], playerb[p]);
-			ellipse(playersx[p]/view, playersy[p]/view, (100)*Math.log10(playersmass[p])/view, (100)*Math.log10(playersmass[p])/view);
-			noStroke();
-			fill(0, 0, 0);
-			textAlign(CENTER, CENTER);
-			text(nicknames[p] + "\n" + playersmass[p], playersx[p], playersy[p]);
+			if(playersalive[p] == true){
+				//(100)*Math.log2(playersmass[p])
+				fill(playerr[p], playerg[p], playerb[p]);
+				ellipse(playersx[p]/view, playersy[p]/view, playersmass[p]/view, playersmass[p]/view);
+				noStroke();
+				fill(0, 0, 0);
+				textAlign(CENTER, CENTER);
+				text(nicknames[p] + "\n" + playersmass[p], playersx[p]/view, playersy[p]/view);
+			}
 		}
 	}
-
-	translate((((1)*myposx/view) - (widthorheight/2)), (((1)*myposy/view) - (widthorheight/2)));
+	if(youDead == false){
+		translate((((1)*myposx/view) - (widthorheight/2)), (((1)*myposy/view) - (widthorheight/2)));
+	}
+	else{
+		translate((((1)*playersx[socketids.indexOf(youreater)]/view) - (widthorheight/2)), (((1)*playersy[socketids.indexOf(youreater)]/view) - (widthorheight/2)));
+	}
 	
-	myposx = playersx[socketids.indexOf(mySocketID)];
-	myposy = playersy[socketids.indexOf(mySocketID)];
+	if(youDead == false){
+		myposx = playersx[socketids.indexOf(mySocketID)];
+		myposy = playersy[socketids.indexOf(mySocketID)];
+	}
 	//stroke(255, 255, 255);
-	fill(playerr[socketids.indexOf(mySocketID)], playerg[socketids.indexOf(mySocketID)], playerb[socketids.indexOf(mySocketID)]);
-	ellipse(widthorheight/2, widthorheight/2, (widthorheight/10)*Math.log10(playersmass[socketids.indexOf(mySocketID)]), (widthorheight/10)*Math.log10(playersmass[socketids.indexOf(mySocketID)]));
-	textAlign(CENTER, CENTER);
-	noStroke();
-	fill(0, 0, 0)
-	text(nickname + "\n" + playersmass[socketids.indexOf(mySocketID)], widthorheight/2, widthorheight/2);
+	//(widthorheight/10)*Math.log2(playersmass[socketids.indexOf(mySocketID)])/view
+	if(youDead == false){
+		fill(playerr[socketids.indexOf(mySocketID)], playerg[socketids.indexOf(mySocketID)], playerb[socketids.indexOf(mySocketID)]);
+		ellipse(widthorheight/2, widthorheight/2, (playersmass[socketids.indexOf(mySocketID)])/view, (playersmass[socketids.indexOf(mySocketID)])/view);
+		textAlign(CENTER, CENTER);
+		noStroke();
+		fill(0, 0, 0)
+		text(nickname + "\n" + playersmass[socketids.indexOf(mySocketID)], widthorheight/2, widthorheight/2);
+	}
 	
 	
 
@@ -10584,23 +10614,37 @@ function draw(){
 	
 	translate((widthorheight/9)*8, (widthorheight/9)*8);
 	for(var pl = 0; pl < playersx.length; pl++){
-		if(pl == socketids.indexOf(mySocketID)){
-			strokeWeight(1);
-			stroke(0, 255, 0);
-			fill(0, 255, 0);
-			ellipse((playersx[pl]/((mapsize*2000)/(widthorheight/15)))*2, (playersy[pl]/((mapsize*2000)/(widthorheight/15)))*2, (playersmass[pl]/((mapsize*2000)/(widthorheight/15)))*2, (playersmass[pl]/((mapsize*2000)/(widthorheight/15)))*2);
+		if(playersalive[pl] == true){
+			if(pl == socketids.indexOf(mySocketID)){
+				strokeWeight(1);
+				stroke(0, 255, 0);
+				fill(0, 255, 0);
+				ellipse((playersx[pl]/((mapsize*2000)/(widthorheight/15)))*2, (playersy[pl]/((mapsize*2000)/(widthorheight/15)))*2, (playersmass[pl]/((mapsize*2000)/(widthorheight/15)))*2, (playersmass[pl]/((mapsize*2000)/(widthorheight/15)))*2);
+			}
+			else{
+				strokeWeight(1);
+				stroke(255, 0, 0);
+				fill(255, 0, 0);
+				ellipse((playersx[pl]/((mapsize*2000)/(widthorheight/15)))*2, (playersy[pl]/((mapsize*2000)/(widthorheight/15)))*2, (playersmass[pl]/((mapsize*2000)/(widthorheight/15)))*2, (playersmass[pl]/((mapsize*2000)/(widthorheight/15)))*2/*((mapsize*500)/((widthorheight/9)*8))*/);
+			}
 		}
-		else{
-			strokeWeight(1);
-			stroke(255, 0, 0);
-			fill(255, 0, 0);
-			ellipse((playersx[pl]/((mapsize*2000)/(widthorheight/15)))*2, (playersy[pl]/((mapsize*2000)/(widthorheight/15)))*2, (playersmass[pl]/((mapsize*2000)/(widthorheight/15)))*2, (playersmass[pl]/((mapsize*2000)/(widthorheight/15)))*2);
-		}
+	}
+	translate((-widthorheight/9)*8, (-widthorheight/9)*8);
+	if(youDead == true){
+		background(0, 0, 0, 255/2);
+		fill(255, 255, 255);
+		strokeWeight(1);
+		stroke(255, 0, 0);
+		text("You were eaten...", widthorheight/2, widthorheight/3);
+		text("Click to respawn", widthorheight/2, widthorheight/3*2);
+		noStroke();
 	}
 }
 
 function mousePressed(){
-	
+	if(youDead == true){
+		window.location.reload();
+	}
 }
 
 function random(min, max){
@@ -10646,7 +10690,7 @@ function movedown(){
 
 function move(dx, dy){
 	socket.emit('mrqst', mySocketID, dx - (widthorheight/2), dy - (widthorheight/2));
-	console.log(dx + ", " + dy);
+	//console.log(dx + ", " + dy);
 	return false;
 }
 	
@@ -10671,7 +10715,7 @@ socket.on('md', function(x, y, therID){
 	playersx[socketids.indexOf(therID)] = x;
 	playersy[socketids.indexOf(therID)] = y;
 });
-socket.on('cid', function(info, infotwo, infothree, ifour, ifive, isix, iseven, ieight, inine){
+socket.on('cid', function(info, infotwo, infothree, ifour, ifive, isix, iseven, ieight, inine, iten){
 	console.log("Player #" + info + " with the name '" + infothree + "' joined and spawned at X: " + ifour + ", Y: " + ifive + ". Now there are a total of " + infotwo + " players online! Hooray!");
 	playersx.push(0);
 	playersy.push(0);
@@ -10681,6 +10725,7 @@ socket.on('cid', function(info, infotwo, infothree, ifour, ifive, isix, iseven, 
 	playerg.push(iseven);
 	playerb.push(ieight);
 	playersmass.push(inine);
+	playersalive.push(iten);
 });
 /*socket.on('color', function(r, g, b){
 	playerr.push(r);
@@ -10691,7 +10736,7 @@ socket.on('mover', function(x, y, id){
 	playersx[socketids.indexOf(id)] = x;
 	playersy[socketids.indexOf(id)] = y;
 });
-socket.on('them', function(themx, themy, themid, themname, r, g, b, mass){
+socket.on('them', function(themx, themy, themid, themname, r, g, b, mass, alive){
 	playersx.push(themx);
 	playersy.push(themy);
 	socketids.push(themid);
@@ -10700,6 +10745,7 @@ socket.on('them', function(themx, themy, themid, themname, r, g, b, mass){
 	playerg.push(g);
 	playerb.push(b);
 	playersmass.push(mass);
+	playersalive.push(alive);
 });
 socket.on('bugs', function(bugx, bugy, bugalive){
 	buggeesx.push(bugx);
@@ -10718,7 +10764,17 @@ socket.on('deadbug', function(number){
 	buggeesalive[buggeesx.indexOf(number)] = false;
 });
 socket.on('mass', function(mass, ID){
-	playersmass[socketids.indexOf(ID)] = mass;;
+	playersmass[socketids.indexOf(ID)] = mass;
+});
+socket.on('ateplayer', function(eatenid, eaterid, eatersmass){
+	console.log("Your ID: " + mySocketID + ", eaten's id: " + eatenid)
+	youreater = eaterid;
+	playersmass[socketids.indexOf(eaterid)] = eatersmass;
+	playersalive[socketids.indexOf(eatenid)] = false;
+	playersmass[socketids.indexOf(eatenid)] = 100;
+	if(eatenid == mySocketID){
+		youDed = true;
+	}
 });
 </script>
 </body>
