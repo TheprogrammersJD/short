@@ -19,6 +19,7 @@ var playerr = [];
 var playerg = [];
 var playerb = [];
 var playersonline = 0;
+var playersalive = [];
 var clients = [];
 var nicknames = [];
 var playercolors = [];
@@ -58,9 +59,10 @@ res.sendFile(__dirname + '/index.html');
 io.on('connection', function(socket){
   console.log('a user connected');
   playersonline++;
+  playersalive.push(true);
   playersx.push(getRandomArbitrary((-500*mapsize), (500*mapsize)));
   playersy.push(getRandomArbitrary((-500*mapsize), (500*mapsize)));
-  playersmass.push(10);
+  playersmass.push(100);
   playerr.push(getRandomArbitrary(50, 230));
   playerg.push(getRandomArbitrary(50, 230));
   playerb.push(getRandomArbitrary(50, 230));
@@ -73,10 +75,10 @@ io.on('connection', function(socket){
 	nicknames.push(nickname);
 	
 	//socket.emit("color", playerr[clients.indexOf(clientid)], playerg[clients.indexOf(clientid)], playerb[clients.indexOf(clientid)]);
-	socket.broadcast.emit('cid', clientid, playersonline, nickname, playersx[clients.indexOf(clientid)], playersy[clients.indexOf(clientid)], playerr[clients.indexOf(clientid)], playerg[clients.indexOf(clientid)], playerb[clients.indexOf(clientid)], playersmass[clients.indexOf(clientid)]);
+	socket.broadcast.emit('cid', clientid, playersonline, nickname, playersx[clients.indexOf(clientid)], playersy[clients.indexOf(clientid)], playerr[clients.indexOf(clientid)], playerg[clients.indexOf(clientid)], playerb[clients.indexOf(clientid)], playersmass[clients.indexOf(clientid)], playersalive[clients.indexOf(clientid)]);
 	//socket.emit('you', playersx[clients.indexOf(clientid)], playersy[clients.indexOf(clientid)]);
 	for(var c = 0; c < clients.length; c++){
-		socket.emit('them', playersx[c], playersy[c], clients[c], nicknames[c], playerr[c], playerg[c], playerb[c], playersmass[c]);
+		socket.emit('them', playersx[c], playersy[c], clients[c], nicknames[c], playerr[c], playerg[c], playerb[c], playersmass[c], playersalive[c]);
 	}
 	//socket.emit("mass", playersmass[clients.indexOf(clientid)]);
 	for(var b = 0; b < buggeesalive.length; b++){
@@ -92,7 +94,7 @@ io.on('connection', function(socket){
 	
 	
 	setInterval(function(){
-		if(buggeesalive.length < 10000){
+		if(bugsliving < 10000){
 			buggeesx.push(getRandomArbitrary((-1000*mapsize), (1000*mapsize)));
 			buggeesy.push(getRandomArbitrary((-1000*mapsize), (1000*mapsize)));
 			/*buggeesr.push(getRandomArbitrary(0, 255));
@@ -145,7 +147,7 @@ io.on('connection', function(socket){
 	  
 	for(var bug = 0; bug < buggeesalive.length; bug++){
 		if(buggeesalive[bug] == true){
-			if(Math.sqrt(Math.pow((Math.abs(playersx[clients.indexOf(ID)]) - Math.abs(buggeesx[bug])), 2) + Math.pow((Math.abs(playersy[clients.indexOf(ID)]) - Math.abs(buggeesy[bug])), 2)) < 100*(Math.log10(playersmass[clients.indexOf(ID)]))){
+			if(Math.sqrt(Math.pow((Math.abs(playersx[clients.indexOf(ID)]) - Math.abs(buggeesx[bug])), 2) + Math.pow((Math.abs(playersy[clients.indexOf(ID)]) - Math.abs(buggeesy[bug])), 2)) < playersmass[clients.indexOf(ID)]/2){
 				buggeesalive[bug] = false;
 				bugsliving--;
 				
@@ -159,6 +161,26 @@ io.on('connection', function(socket){
 			}
 		}
 	}	
+	for(var p = 0; p < playersalive.length; p++){
+		if(p == clients.indexOf(ID)){}
+		else{
+			if(playersalive[p] == true&&playersalive[clients.indexOf(ID)] == true&&Math.sqrt(Math.pow((playersx[clients.indexOf(ID)] - playersx[p]), 2) + Math.pow((playersy[clients.indexOf(ID)] - playersy[p]), 2)) < playersmass[clients.indexOf(ID)]/2&&playersmass[clients.indexOf(ID)]*9/10 >= playersmass[p]){
+				playersalive[p] = false;
+				playersmass[clients.indexOf(ID)] += playersmass[p];
+				playersmass[p] = 100;
+				socket.emit('ateplayer', clients[p], ID, playersmass[clients.indexOf(ID)]);
+				socket.broadcast.emit('ateplayer', clients[p], ID, playersmass[clients.indexOf(ID)]);
+			}
+			else if(playersalive[p] == true&&playersalive[clients.indexOf(ID)] == true&&Math.sqrt(Math.pow((playersx[clients.indexOf(ID)] - playersx[p]), 2) + Math.pow((playersy[clients.indexOf(ID)] - playersy[p]), 2)) < playersmass[clients.indexOf(ID)]/2&&playersmass[p]*9/10 > playersmass[clients.indexOf(ID)]){
+				playersalive[clients.indexOf(ID)] = false;
+				playersmass[p] += playersmass[clients.indexOf(ID)];
+				playersmass[clients.indexOf(ID)] = 100;
+				socket.emit('ateplayer', ID, clients[p], playersmass[p]);
+				socket.broadcast.emit('ateplayer', clients[p], ID, playersmass[clients.indexOf(ID)]);
+
+			}
+		}
+	}
 	  
 	  socket.emit('mover', playersx[clients.indexOf(ID)], playersy[clients.indexOf(ID)], ID);
 	  socket.broadcast.emit('mover', playersx[clients.indexOf(ID)], playersy[clients.indexOf(ID)], ID);
